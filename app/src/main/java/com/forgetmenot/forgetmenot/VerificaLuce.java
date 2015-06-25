@@ -17,7 +17,7 @@ public class VerificaLuce extends AppCompatActivity implements SensorEventListen
     private TextView valoreLuce;
     private SensorManager mSensorManager;
     private Sensor luce;
-    private String prova;
+    private String prova2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
