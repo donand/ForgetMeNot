@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.forgetmenot.forgetmenot.VerificaLuce"
+    android:id="@+id/VerificaLuce">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ATTENZIONE! per poter sfruttare al meglio questa funzionalità rivolgere lo schermo del telefono nella direzione in cui proviene la luce"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="10dp"
+        android:id="@+id/attenzione"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Il Livello della luminosità in questo punto della casa è:"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="10dp"
+        android:id="@+id/text_luce"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/attenzione"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="10dp"
+        android:id="@+id/valoreLuce"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/text_luce"/>
+
+</RelativeLayout>
