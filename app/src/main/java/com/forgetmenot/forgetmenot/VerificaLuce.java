@@ -52,17 +52,20 @@ public class VerificaLuce extends AppCompatActivity implements SensorEventListen
     public final void onSensorChanged(SensorEvent event) {
         float max = luce.getMaximumRange();
         float livelloLuce = (event.values[0]);
-        if(livelloLuce<300)
+       // valoreLuce.setText(""+livelloLuce);
+        if(livelloLuce<1000)
             valoreLuce.setText("1");
-        else if(livelloLuce<800)
+        else if(livelloLuce<2500)
             valoreLuce.setText("2");
-        else if(livelloLuce<1400)
+        else if(livelloLuce<3500)
             valoreLuce.setText("3");
-        else if(livelloLuce<2000)
+        else if(livelloLuce<5000)
             valoreLuce.setText("4");
         else
             valoreLuce.setText("5");
+
     }
+
 
     @Override
     protected void onResume() {
