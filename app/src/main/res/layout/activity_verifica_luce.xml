@@ -22,22 +22,97 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Il Livello della luminosità in questo punto della casa è:"
+        android:text="Il livello di luminosità in questo punto della casa è:"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:visibility="invisible"
         android:layout_marginTop="15dp"
         android:paddingLeft="10dp"
-        android:id="@+id/text_luce"
+        android:id="@+id/livello_luce"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/attenzione"/>
+        />
+
+    <ImageView
+        android:id="@+id/checkluce"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/checkluce"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/attenzione"
+        android:elevation="3dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="COMINCIA"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:paddingLeft="10dp"
-        android:id="@+id/valoreLuce"
+        android:id="@+id/text_comincia"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/text_luce"/>
+        android:textColor="#4CAF50"
+        android:clickable="true"
+        android:layout_below="@+id/checkluce"/>
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TROVA PIANTE"
+        android:visibility="invisible"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="10dp"
+        android:id="@+id/trovaPiante"
+        android:layout_centerHorizontal="true"
+        android:textColor="#4CAF50"
+        android:clickable="true"
+        android:layout_below="@+id/checkluce"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="10dp"
+        android:id="@+id/messaggio"
+        android:layout_centerVertical="true"
+        android:textColor="#4CAF50"
+        android:clickable="true"
+        android:layout_below="@+id/checkluce"
+        android:textStyle="bold"
+        />
+
+
+    <ListView
+        android:id="@+id/piante"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:paddingBottom="50dp"
+        android:layout_marginBottom="0dp"
+        android:layout_weight="1"
+        android:layout_below="@+id/messaggio"
+
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NUOVA RICERCA"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="10dp"
+        android:id="@+id/nuovaRicerca"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"
+        android:textColor="#4CAF50"
+        android:clickable="true"
+        android:layout_below="@+id/piante"/>
+
+
+
 
 </RelativeLayout>

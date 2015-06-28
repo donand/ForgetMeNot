@@ -37,7 +37,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         if(id == R.id.luce){
-            Intent i = new Intent(MainActivity.this, VisualSearch.class);
+            Intent i = new Intent(MainActivity.this, VerificaLuce.class);
             this.startActivity(i);
 
         }
