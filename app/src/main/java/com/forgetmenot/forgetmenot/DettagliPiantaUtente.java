@@ -82,6 +82,7 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         mDataUltimaAcqua = (TextView) findViewById(R.id.data_acqua);
         mDataUltimoFertilizzante = (TextView) findViewById(R.id.data_fertilizzante);
 
+
         mCittà = (TextView) findViewById(R.id.città);
         mTemperaturaMin = (TextView) findViewById(R.id.temperatura_min);
         mTemperaturaMax = (TextView) findViewById(R.id.temperatura_max);
