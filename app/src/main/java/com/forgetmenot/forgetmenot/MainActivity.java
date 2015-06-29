@@ -3,6 +3,7 @@ package com.forgetmenot.forgetmenot;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.SearchView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -26,15 +28,24 @@ import org.json.JSONObject;
 public class MainActivity extends ActionBarActivity implements TaskCallbackElenco {
     String prova ;
     JSONArray elencoPiante=null;
-
+    ImageButton fabUpload;
+    SharedPreferences pref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        pref=getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        //floating button
+        fabUpload = (ImageButton)findViewById(R.id.fab);
+        fabUpload.setVisibility(View.VISIBLE);
+        fabUpload.bringToFront();
+
+        String idUtente=pref.getString("idUtente", null);
+
         //chiamo il task che prende l'elenco di piante dell'utente dal server. ora provo con un utente a caso
         try {
-            String ricerca = "http://forgetmenot.ddns.net/ForgetMeNot/ElencoPianteUtente?utente=1";
+            String ricerca = "http://forgetmenot.ddns.net/ForgetMeNot/ElencoPianteUtente?utente="+idUtente;
             GetElencoPianteUtente task = new GetElencoPianteUtente(ricerca, this, this.getApplicationContext());
             task.execute();
         } catch (Exception e) {
@@ -79,10 +90,10 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
     }
     public void done(String result){
         try{
-            TextView nome=(TextView)findViewById(R.id.nomePianta);
-            if(result.equals(null) || result.equals("")){
-                nome.setVisibility(View.VISIBLE);
-                nome.setText("Non hai nessuna pianta.");
+            TextView messaggioIniziale=(TextView)findViewById(R.id.messaggio);
+            if(result==null || result.equals("")){
+                messaggioIniziale.setVisibility(View.VISIBLE);
+                messaggioIniziale.setText("Non hai nessuna pianta.");
             }
             elencoPiante=new JSONArray(result);
 

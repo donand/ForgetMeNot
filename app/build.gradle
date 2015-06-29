@@ -25,4 +25,33 @@ dependencies {
     compile 'com.android.support:cardview-v7:21.0.+'
     //compile files('libs/picasso-2.4.0.jar')
     compile "com.squareup.picasso:picasso:2.4.0"
+    compile 'com.android.support:design:22.2.0'
+    compile 'com.github.rahatarmanahmed:circularprogressview:1.0.0'
+    compile 'com.google.android.gms:play-services:4.2.+'
+    // The following lines implement maven imports as defined at:
+    // https://code.google.com/p/google-api-java-client/wiki/Setup
+    // Add the Google API client library.
+    compile('com.google.api-client:google-api-client:1.17.0-rc') {
+        // Exclude artifacts that the Android SDK/Runtime provides.
+        exclude(group: 'xpp3', module: 'xpp3')
+        exclude(group: 'org.apache.httpcomponents', module: 'httpclient')
+        exclude(group: 'junit', module: 'junit')
+        exclude(group: 'com.google.android', module: 'android')
+    }
+    // Add the Android extensions for the Google API client library.
+    // This will automatically include play services as long as you have download that library
+    // from the Android SDK manager.
+    // Add the Android extensions for the Google API client library.
+    compile('com.google.api-client:google-api-client-android:1.17.0-rc') {
+        // Exclude play services, since we're not using this yet.
+        //exclude(group: 'com.google.android.google-play-services', module: 'google-play-services')
+    }
+    // END Google APIs
+    // The following client libraries make HTTP/JSON on Android easier.
+    // Android extensions for Google HTTP Client.
+    compile('com.google.http-client:google-http-client-android:1.17.0-rc') {
+        exclude(group: 'com.google.android', module: 'android')
+    }
+    // This is used by the Google HTTP client library.
+    compile 'com.google.guava:guava:14.0.+'
 }

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
     <item android:id="@+id/search"
         android:title="Cerca"
-        android:icon="@drawable/ic_search"
+        android:icon="@drawable/search"
         app:showAsAction="always|collapseActionView"
         app:actionViewClass="android.support.v7.widget.SearchView" />
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
