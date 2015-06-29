@@ -3,13 +3,16 @@ package com.forgetmenot.forgetmenot;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -32,25 +35,22 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
     public static final String URL_AGGIORNA_DATA_ACQUA = "http://forgetmenot.ddns.net/ForgetMeNot/AggiornaDataUltimaAcqua";
     public static final String URL_AGGIORNA_DATA_CONCIMAZIONE = "http://forgetmenot.ddns.net/ForgetMeNot/AggiornaDataUltimaConcimazione";
     public static final String URL_GET_DETTAGLI = "http://forgetmenot.ddns.net/ForgetMeNot/GetDettagliPiantaUser?id=";
+    public static final String URL_GET_METEO = "http://api.openweathermap.org/data/2.5/weather?";
+    public static final String URL_ICONA_METEO = "http://openweathermap.org/img/w/";
 
     private ImageView mImmagine;
-    private TextView mNomeUtente;
-    private TextView mNomeGenerico;
-    private TextView mIndirizzo;
+    private TextView mNomeUtente, mNomeGenerico, mIndirizzo;
 
-    private ProgressBar mLivelloAcqua;
-    private ProgressBar mLivelloFertilizzante;
-    private ProgressBar mLivelloLuce;
+    private ProgressBar mLivelloAcqua, mLivelloFertilizzante, mLivelloLuce;
 
-    private TextView mDescrizioneAcqua;
-    private TextView mDescrizioneFertilizzante;
-    private TextView mDescrizioneLuce;
+    private TextView mDescrizioneAcqua, mDescrizioneFertilizzante, mDescrizioneLuce;
 
-    private TextView mIntervalloAcqua;
-    private TextView mIntervalloFertilizzante;
+    private TextView mIntervalloAcqua, mIntervalloFertilizzante;
 
-    private TextView mDataUltimaAcqua;
-    private TextView mDataUltimoFertilizzante;
+    private TextView mDataUltimaAcqua, mDataUltimoFertilizzante;
+
+    private TextView mCittà, mTemperaturaMin, mTemperaturaMax, mTemperaturaAttuale;
+    private ImageView mIconaMeteo;
 
     private double lat, lon;
     private int idPossesso;
@@ -76,16 +76,24 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         mDescrizioneFertilizzante = (TextView) findViewById(R.id.descrizione_fertilizzante);
         mDescrizioneLuce = (TextView) findViewById(R.id.descrizione_luce);
 
-        //TODO: fare intervallo acqua
-        //TODO: fare intervallo fertilizzante
+        mIntervalloAcqua = (TextView) findViewById(R.id.intervallo_acqua);
+        mIntervalloFertilizzante = (TextView) findViewById(R.id.intervallo_fertilizzante);
 
-        //TODO: fare data ultima acqua
-        //TODO: fare data ultimo fertilizzante
+        mDataUltimaAcqua = (TextView) findViewById(R.id.data_acqua);
+        mDataUltimoFertilizzante = (TextView) findViewById(R.id.data_fertilizzante);
+
+        mCittà = (TextView) findViewById(R.id.città);
+        mTemperaturaMin = (TextView) findViewById(R.id.temperatura_min);
+        mTemperaturaMax = (TextView) findViewById(R.id.temperatura_max);
+        mTemperaturaAttuale = (TextView) findViewById(R.id.temperatura_attuale);
+        mIconaMeteo = (ImageView) findViewById(R.id.icona_meteo);
 
         ((Button) findViewById(R.id.aggiorna_data_acqua)).setOnClickListener(this);
         ((Button) findViewById(R.id.aggiorna_data_concimazione)).setOnClickListener(this);
         ((Button) findViewById(R.id.verifica_luce)).setOnClickListener(this);
         ((Button) findViewById(R.id.info_pianta)).setOnClickListener(this);
+
+        setScrollableDescriptions();
 
         Picasso.with(this).load("http://forgetmenot.ddns.net/ForgetMeNot/Immagini/narciso.jpg").into(mImmagine);
 
@@ -112,6 +120,33 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setScrollableDescriptions() {
+        mDescrizioneAcqua.setMovementMethod(new ScrollingMovementMethod());
+        mDescrizioneAcqua.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                ((ScrollView) findViewById(R.id.scroll_view)).requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+        mDescrizioneFertilizzante.setMovementMethod(new ScrollingMovementMethod());
+        mDescrizioneFertilizzante.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                ((ScrollView) findViewById(R.id.scroll_view)).requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+        mDescrizioneLuce.setMovementMethod(new ScrollingMovementMethod());
+        mDescrizioneLuce.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                ((ScrollView) findViewById(R.id.scroll_view)).requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
     }
 
     private void downloadDettagli(String url) {
@@ -157,28 +192,16 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         JSONObject obj = null;
         try {
             obj = new JSONObject(result);
-            //mNomeUtente.setText(obj.getString("nomeAssegnatoDallUser"));
-            //mNomeGenerico.setText(obj.getString("nomeGenerale"));
-            //Picasso.with(this).load(obj.getString("immagine")).into(mImmagine);
             mIndirizzo.setText(obj.getString("indirizzo"));
-
-            //mLivelloAcqua.setProgress(obj.getInt("livelloAcqua"));
-            //mLivelloFertilizzante.setProgress(obj.getInt("livelloConcimazione"));
             mLivelloLuce.setProgress(obj.getInt("luce"));
-
             mDescrizioneAcqua.setText(obj.getString("descrizioneAcqua"));
             mDescrizioneFertilizzante.setText(obj.getString("descrizioneConcimazione"));
-            //mDescrizioneLuce.setText(obj.getString("descrizioneLuce"));
-
-            //TODO: fare intervallo acqua
-            //mIntervalloAcqua.setText(obj.getInt("intervalloAcqua"));
-            //TODO: fare intervallo fertilizzante
-            //mIntervalloFertilizzante.setText(obj.getInt("intervalloFertilizzante"));
-
-            //TODO: fare data ultima acqua
-            //mDataUltimaAcqua.setText(obj.getString("dataUltimaAcqua"));
-            //TODO: fare data ultimo fertilizzante
-            //mDataUltimoFertilizzante.setText(obj.getString("dataUltimaConcimazione"));
+            int in = obj.getInt("acqua");
+            mIntervalloAcqua.setText(in + ((in == 1)? " giorno" : " giorni"));
+            in = obj.getInt("intervalloConcimazione");
+            mIntervalloFertilizzante.setText(in + ((in == 1)? " giorno" : " giorni"));
+            mDataUltimaAcqua.setText(obj.getString("dataUltimaAcqua"));
+            mDataUltimoFertilizzante.setText(obj.getString("dataUltimoFertilizzante"));
 
             lon = obj.getDouble("gpslong");
             lat = obj.getDouble("gpslat");
@@ -186,6 +209,8 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        downloadMeteo();
     }
 
 
@@ -197,10 +222,8 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         final String body = obj.toString();
         RequestQueue queue = Volley.newRequestQueue(this);
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -214,14 +237,46 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
                 Log.v(TAG, "Errore nell'aggiornamento della data");
             }
         }){
-            // this is the relevant method
             @Override
             public byte[] getBody() throws AuthFailureError {
-
                 return body.getBytes();
             }
         };
-        // Add the request to the RequestQueue.
         queue.add(stringRequest);
+    }
+
+
+    private void downloadMeteo() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = URL_GET_METEO + "lat=" + lat + "&lon=" + lon;
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.v(TAG, "Download meteo riuscito!");
+                        visualizzaMeteo(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.v(TAG, "Errore nel download del meteo");
+            }
+        });
+        queue.add(jsonRequest);
+    }
+
+    private void visualizzaMeteo(JSONObject result) {
+        try {
+            String città = result.getString("name");
+            JSONObject main = result.getJSONObject("main");
+            JSONObject weather = result.getJSONArray("weather").getJSONObject(0);
+            mCittà.setText(città);
+            mTemperaturaMin.setText("Min " + (int) (main.getDouble("temp_min")-273.15) + "°");
+            mTemperaturaMax.setText("Max " + (int) (main.getDouble("temp_max")-273.15) + "°");
+            mTemperaturaAttuale.setText((int) (main.getDouble("temp")-273.15) + "°");
+            Picasso.with(this).load(URL_ICONA_METEO + weather.getString("icon") + ".png").into(mIconaMeteo);
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

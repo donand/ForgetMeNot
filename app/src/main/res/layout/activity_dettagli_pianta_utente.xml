@@ -1,4 +1,6 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    android:id="@+id/scroll_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -102,15 +104,16 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:padding="10dp">
 
                 <ImageView
-                    android:id="@+id/tempo"
+                    android:id="@+id/icona_meteo"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:layout_margin="15dp"
+                    android:layout_margin="5dp"
                     android:src="@drawable/sun" />
 
                 <TextView
@@ -118,9 +121,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@+id/tempo"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/icona_meteo"
+                    android:layout_toLeftOf="@+id/temperatura_attuale"
                     android:text="Città"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -130,9 +133,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/città"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@+id/tempo"
+                    android:layout_toRightOf="@+id/icona_meteo"
                     android:text="Min 5°"
                     android:textSize="15sp" />
 
@@ -146,6 +148,17 @@
                     android:layout_toRightOf="@+id/temperatura_min"
                     android:text="Max 15°"
                     android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/temperatura_attuale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="20°"
+                    android:textSize="40sp"
+                    android:textStyle="bold"
+                    android:layout_margin="5dp"/>
 
             </RelativeLayout>
 
@@ -180,6 +193,7 @@
                     android:textStyle="bold" />
 
                 <ImageView
+                    android:id="@+id/icona_stato_pianta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -233,12 +247,53 @@
                     android:progress="50"
                     android:progressTint="@color/material_blue" />
 
+                <TextView
+                    android:id="@+id/label_intervallo_acqua"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/icona_acqua"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="3dp"
+                    android:text="Periodo: "
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/intervallo_acqua"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/label_intervallo_acqua"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/icona_acqua"
+                    android:text="15 giorni"/>
+
+                <TextView
+                    android:id="@+id/label_data_acqua"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/label_intervallo_acqua"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="3dp"
+                    android:text="Ultima volta: "
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/data_acqua"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/label_data_acqua"
+                    android:layout_below="@id/label_intervallo_acqua"
+                    android:text="23/05/2015"/>
+
                 <View
                     android:id="@+id/separatore_acqua"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@id/icona_acqua"
-                    android:layout_marginBottom="10dp"
+                    android:layout_below="@id/label_data_acqua"
+                    android:layout_marginBottom="15dp"
                     android:layout_marginTop="5dp"
                     android:background="@color/material_grey" />
 
@@ -247,6 +302,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/separatore_acqua"
+                    android:maxLines="8"
+                    android:scrollbars="vertical"
                     android:text="Descrizione acqua, bla bla cose a caso. Siete tutti cani" />
 
                 <Button
@@ -257,7 +314,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:background="@color/material_blue"
@@ -310,12 +367,53 @@
                     android:progress="50"
                     android:progressTint="@color/material_brown" />
 
+                <TextView
+                    android:id="@+id/label_intervallo_fertilizzante"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/icona_fertilizzante"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="3dp"
+                    android:text="Periodo: "
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/intervallo_fertilizzante"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/label_intervallo_fertilizzante"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/icona_fertilizzante"
+                    android:text="15 giorni"/>
+
+                <TextView
+                    android:id="@+id/label_data_fertilizzante"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/label_intervallo_fertilizzante"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="3dp"
+                    android:text="Ultima volta: "
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/data_fertilizzante"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/label_data_fertilizzante"
+                    android:layout_below="@id/label_intervallo_fertilizzante"
+                    android:text="23/05/2015"/>
+
                 <View
                     android:id="@+id/separatore_fertilizante"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@id/icona_fertilizzante"
-                    android:layout_marginBottom="10dp"
+                    android:layout_below="@id/label_data_fertilizzante"
+                    android:layout_marginBottom="15dp"
                     android:layout_marginTop="5dp"
                     android:background="@color/material_grey" />
 
@@ -324,6 +422,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/separatore_fertilizante"
+                    android:maxLines="8"
+                    android:scrollbars="vertical"
                     android:text="Descrizione fertilizzante, bla bla cose a caso. Siete tutti cani" />
 
                 <Button
@@ -334,7 +434,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:text="HO CONCIMATO"
@@ -392,7 +492,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@id/icona_luce"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="15dp"
                     android:layout_marginTop="5dp"
                     android:background="@color/material_grey" />
 
@@ -401,6 +501,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/separatore_luce"
+                    android:maxLines="8"
+                    android:scrollbars="vertical"
                     android:text="Descrizione fertilizzante, bla bla cose a caso. Siete tutti cani" />
 
                 <Button
@@ -411,7 +513,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:background="@color/material_yellow"
