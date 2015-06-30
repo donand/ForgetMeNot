@@ -81,10 +81,11 @@ public class CustomListPiante extends BaseAdapter {
             holder.livelloFertilizzante=o.getInt("livelloConcimazione");
 
             holder.la.setProgress(holder.livelloAcqua);
+
             holder.lf.setProgress(holder.livelloFertilizzante);
 
             //se si verifica vuol dire che la pianta sta male.
-            if(holder.livelloFertilizzante<=0 || holder.livelloAcqua<=0){
+            if(holder.livelloFertilizzante<=5 || holder.livelloAcqua<=5){
                 holder.stato.setImageResource(R.drawable.bad);
             }
             else holder.stato.setImageResource(R.drawable.happy);
