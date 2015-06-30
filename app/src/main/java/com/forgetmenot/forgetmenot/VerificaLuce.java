@@ -9,8 +9,13 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +37,10 @@ public class VerificaLuce extends AppCompatActivity implements SensorEventListen
     private TextView nuovaRicerca;
 
 
+    private ListView listaPiante;
+
     private ImageView valoreLuce;
+    private ImageButton info;
 
     private int livelloLuceFinale;
 
@@ -59,9 +67,10 @@ public class VerificaLuce extends AppCompatActivity implements SensorEventListen
         trova = (TextView) findViewById(R.id.trovaPiante);
         messaggio = (TextView) findViewById(R.id.messaggio);
         nuovaRicerca = (TextView) findViewById(R.id.nuovaRicerca);
-
-
+        listaPiante = (ListView) findViewById(R.id.piante);
+        listaPiante.setVisibility(View.INVISIBLE);
         valoreLuce = (ImageView) findViewById(R.id.checkluce);
+        info = (ImageButton) findViewById(R.id.info);
 
 
         // Get an instance of the sensor service
@@ -108,14 +117,23 @@ public class VerificaLuce extends AppCompatActivity implements SensorEventListen
                 cambia = true;
                 trova.setVisibility(View.VISIBLE);
                 messaggio.setVisibility(View.INVISIBLE);
+                listaPiante.setVisibility(View.INVISIBLE);
+
+
             }
 
 
         });
+/*
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(VerificaLuce.this, "Info pianta", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-
+     */
     }
-
     @Override
     public final void onAccuracyChanged(Sensor sensor, int accuracy) {
         // Do something if sensor accuracy changes.
@@ -180,7 +198,8 @@ public class VerificaLuce extends AppCompatActivity implements SensorEventListen
                 messaggio.setText("Piante trovate con luminosità " + livelloLuceFinale + ":");
             }
             //listview di activity_main
-            ListView listaPiante=(ListView)findViewById(R.id.piante);
+            listaPiante.setVisibility(View.VISIBLE);
+            setListViewHeightBasedOnItems(listaPiante);
             CustomListPianteConCertaLuce adapter = new CustomListPianteConCertaLuce(VerificaLuce.this, elencoPiante);
             listaPiante.setAdapter(adapter);
 
@@ -188,5 +207,37 @@ public class VerificaLuce extends AppCompatActivity implements SensorEventListen
         catch(Exception e){
             e.printStackTrace();
         }
+    }
+    public static boolean setListViewHeightBasedOnItems(ListView listView) {
+
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter != null) {
+
+            int numberOfItems = listAdapter.getCount();
+
+            // Get total height of all items.
+            int totalItemsHeight = 0;
+            for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
+                View item = listAdapter.getView(itemPos, null, listView);
+                item.measure(0, 0);
+                totalItemsHeight += item.getMeasuredHeight();
+            }
+
+            // Get total height of all item dividers.
+            int totalDividersHeight = listView.getDividerHeight() *
+                    (numberOfItems - 1);
+
+            // Set list height.
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+            params.height = totalItemsHeight + totalDividersHeight;
+            listView.setLayoutParams(params);
+            listView.requestLayout();
+
+            return true;
+
+        } else {
+            return false;
+        }
+
     }
 }
