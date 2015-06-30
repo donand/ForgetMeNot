@@ -1,8 +1,10 @@
 package com.forgetmenot.forgetmenot;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +61,7 @@ public class CustomListPiante extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
+        CardView pianta;
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = this.inflater.inflate(R.layout.list_piante_utente_item,
@@ -74,7 +77,25 @@ public class CustomListPiante extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         try {
-            JSONObject o = elencoPiante.getJSONObject(position);
+            final JSONObject o = elencoPiante.getJSONObject(position);
+            pianta=(CardView)convertView.findViewById(R.id.card_view);
+            pianta.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent((MainActivity)context, DettagliPiantaUtente.class);
+                    try {
+                        i.putExtra("nomeGenerale", o.getString("nome"));
+                        i.putExtra("nomeAssegnato", o.getString("nomeAssegnato"));
+                        i.putExtra("livelloConcimazione", o.getInt("livelloConcimazione"));
+                        i.putExtra("livelloAcqua", o.getInt("livelloAcqua"));
+                        i.putExtra("livelloConcimazione", o.getInt("livelloConcimazione"));
+                        i.putExtra("immagine", o.getString("immagine"));
+                    }
+                    catch (JSONException e){}
+                    ((MainActivity)context).startActivity(i);
+                }
+            });
+
             System.out.println(o.toString());
             holder.nomePianta.setText(o.getString("nomeAssegnato"));
             holder.livelloAcqua=o.getInt("livelloAcqua");
