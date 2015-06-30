@@ -88,8 +88,8 @@ public class CustomListPiante extends BaseAdapter {
                         i.putExtra("nomeAssegnato", o.getString("nomeAssegnato"));
                         i.putExtra("livelloConcimazione", o.getInt("livelloConcimazione"));
                         i.putExtra("livelloAcqua", o.getInt("livelloAcqua"));
-                        i.putExtra("livelloConcimazione", o.getInt("livelloConcimazione"));
                         i.putExtra("immagine", o.getString("immagine"));
+                        i.putExtra("ID", o.getInt("ID"));
                     }
                     catch (JSONException e){}
                     ((MainActivity)context).startActivity(i);
