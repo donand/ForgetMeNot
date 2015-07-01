@@ -1,5 +1,6 @@
 package com.forgetmenot.forgetmenot;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -52,6 +53,8 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
     private TextView mCittà, mTemperaturaMin, mTemperaturaMax, mTemperaturaAttuale;
     private ImageView mIconaMeteo;
 
+    private TextView scopriNegozi;
+
     private double lat, lon;
     private int idPossesso;
 
@@ -89,6 +92,9 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         mTemperaturaAttuale = (TextView) findViewById(R.id.temperatura_attuale);
         mIconaMeteo = (ImageView) findViewById(R.id.icona_meteo);
 
+        scopriNegozi=(TextView)findViewById(R.id.scopri);
+        scopriNegozi.setOnClickListener(this);
+
         ((Button) findViewById(R.id.aggiorna_data_acqua)).setOnClickListener(this);
         ((Button) findViewById(R.id.aggiorna_data_concimazione)).setOnClickListener(this);
         ((Button) findViewById(R.id.verifica_luce)).setOnClickListener(this);
@@ -96,7 +102,7 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
 
         setScrollableDescriptions();
 
-        Picasso.with(this).load("http://forgetmenot.ddns.net/ForgetMeNot/Immagini/narciso.jpg").into(mImmagine);
+        Picasso.with(this).load("http://forgetmenot.ddns.net/ForgetMeNot/Immagini/narciso.jpg").transform(new CircleTransform()).into(mImmagine);
 
         downloadDettagli(URL_GET_DETTAGLI + idPossesso);
     }
@@ -186,6 +192,11 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
             case R.id.info_pianta:
                 //fa partire l'activity dei dettagli generali di una pianta
                 break;
+            case R.id.scopri:
+                Intent i = new Intent(DettagliPiantaUtente.this, Mappa.class);
+                i.putExtra("lat", lat);
+                i.putExtra("lon", lon);
+                this.startActivity(i);
         }
     }
 
@@ -275,7 +286,7 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
             mTemperaturaMin.setText("Min " + (int) (main.getDouble("temp_min")-273.15) + "°");
             mTemperaturaMax.setText("Max " + (int) (main.getDouble("temp_max")-273.15) + "°");
             mTemperaturaAttuale.setText((int) (main.getDouble("temp")-273.15) + "°");
-            Picasso.with(this).load(URL_ICONA_METEO + weather.getString("icon") + ".png").into(mIconaMeteo);
+            Picasso.with(this).load(URL_ICONA_METEO + weather.getString("icon") + ".png").transform(new CircleTransform()).into(mIconaMeteo);
         } catch(JSONException e) {
             e.printStackTrace();
         }

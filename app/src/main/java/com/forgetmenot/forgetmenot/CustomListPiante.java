@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.forgetmenot.forgetmenot.utils.CircleTransform;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -96,7 +97,6 @@ public class CustomListPiante extends BaseAdapter {
                 }
             });
 
-            System.out.println(o.toString());
             holder.nomePianta.setText(o.getString("nomeAssegnato"));
             holder.livelloAcqua=o.getInt("livelloAcqua");
             holder.livelloFertilizzante=o.getInt("livelloConcimazione");
@@ -112,7 +112,7 @@ public class CustomListPiante extends BaseAdapter {
             else holder.stato.setImageResource(R.drawable.happy);
 
             Picasso.with(context)
-                    .load(o.getString("immagine")).into(holder.immaginePianta);
+                    .load(o.getString("immagine")).transform(new CircleTransform()).into(holder.immaginePianta);
         }
         catch(Exception e) {
             e.printStackTrace();

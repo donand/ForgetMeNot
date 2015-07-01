@@ -60,7 +60,7 @@ public class SplashScreen extends Activity implements ConnectionCallbacks, OnCon
         }*/
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this).addApi(Plus.API, null)
+                .addOnConnectionFailedListener(this).addApi(Plus.API)
                 .addScope(Plus.SCOPE_PLUS_PROFILE).build();
     }
 
