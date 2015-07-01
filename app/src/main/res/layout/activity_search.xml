@@ -8,31 +8,45 @@
 
     <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
         android:layout_height="wrap_content" />-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+    <TextView
+        android:id="@+id/risultato"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp">
-        <ImageView
-            android:id="@+id/immaginePianta"
-            android:visibility="gone"
-            android:layout_width="70dp"
-            android:layout_height="70dp"/>
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:textColor="@color/colorPrimary"
+        />
 
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+            <ImageView
+                android:id="@+id/immaginePianta"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                />
 
-        <TextView
-            android:id="@+id/nomePianta"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            android:layout_marginLeft="20dp"
-            android:textAppearance="@android:style/TextAppearance.Large"
-            android:gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/nomePianta"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:textAppearance="@android:style/TextAppearance.Large"
+                />
 
+        </LinearLayout>
 
-    </LinearLayout>
-
+</LinearLayout>
 
