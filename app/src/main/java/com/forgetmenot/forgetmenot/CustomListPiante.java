@@ -84,14 +84,16 @@ public class CustomListPiante extends BaseAdapter {
                 public void onClick(View view) {
                     Intent i = new Intent((MainActivity)context, DettagliPiantaUtente.class);
                     try {
-                        i.putExtra("nomeGenerale", o.getString("nome"));
-                        i.putExtra("nomeAssegnato", o.getString("nomeAssegnato"));
-                        i.putExtra("livelloConcimazione", o.getInt("livelloConcimazione"));
-                        i.putExtra("livelloAcqua", o.getInt("livelloAcqua"));
-                        i.putExtra("livelloConcimazione", o.getInt("livelloConcimazione"));
-                        i.putExtra("immagine", o.getString("immagine"));
+                        i.putExtra(DettagliPiantaUtente.NOME_GENERALE, o.getString("nomePianta"));
+                        i.putExtra(DettagliPiantaUtente.NOME_ASSEGNATO, o.getString("nomeAssegnato"));
+                        i.putExtra(DettagliPiantaUtente.LIVELLO_CONCIMAZIONE, o.getInt("livelloConcimazione"));
+                        i.putExtra(DettagliPiantaUtente.LIVELLO_ACQUA, o.getInt("livelloAcqua"));
+                        i.putExtra(DettagliPiantaUtente.IMMAGINE, o.getString("immagine"));
+                        i.putExtra(DettagliPiantaUtente.ID, o.getInt("ID"));
                     }
-                    catch (JSONException e){}
+                    catch (JSONException e){
+                        e.printStackTrace();
+                    }
                     ((MainActivity)context).startActivity(i);
                 }
             });
@@ -101,9 +103,9 @@ public class CustomListPiante extends BaseAdapter {
             holder.livelloAcqua=o.getInt("livelloAcqua");
             holder.livelloFertilizzante=o.getInt("livelloConcimazione");
 
-            holder.la.setProgress(holder.livelloAcqua);
+            holder.la.setProgress(holder.livelloAcqua * 10);
 
-            holder.lf.setProgress(holder.livelloFertilizzante);
+            holder.lf.setProgress(holder.livelloFertilizzante * 10);
 
             //se si verifica vuol dire che la pianta sta male.
             if(holder.livelloFertilizzante<=5 || holder.livelloAcqua<=5){

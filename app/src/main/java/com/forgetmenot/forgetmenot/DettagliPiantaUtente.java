@@ -1,5 +1,8 @@
 package com.forgetmenot.forgetmenot;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -29,6 +32,8 @@ import com.forgetmenot.forgetmenot.utils.CircleTransform;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
+
 
 public class DettagliPiantaUtente extends ActionBarActivity implements View.OnClickListener {
     public static final String TAG = "DettagliPianteUtente";
@@ -37,6 +42,13 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
     public static final String URL_GET_DETTAGLI = "http://forgetmenot.ddns.net/ForgetMeNot/GetDettagliPiantaUser?id=";
     public static final String URL_GET_METEO = "http://api.openweathermap.org/data/2.5/weather?";
     public static final String URL_ICONA_METEO = "http://openweathermap.org/img/w/";
+
+    public static final String NOME_ASSEGNATO = "com.forgetmenot.forgetmenot.nomeAssegnato";
+    public static final String NOME_GENERALE = "com.forgetmenot.forgetmenot.nomeGenerale";
+    public static final String LIVELLO_ACQUA = "com.forgetmenot.forgetmenot.livelloAcqua";
+    public static final String LIVELLO_CONCIMAZIONE = "com.forgetmenot.forgetmenot.livelloConcimazione";
+    public static final String IMMAGINE = "com.forgetmenot.forgetmenot.immagine";
+    public static final String ID = "com.forgetmenot.forgetmenot.id";
 
     private ImageView mImmagine;
     private TextView mNomeUtente, mNomeGenerico, mIndirizzo;
@@ -53,7 +65,7 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
     private ImageView mIconaMeteo;
 
     private double lat, lon;
-    private int idPossesso;
+    private int idPossesso, intervalloAcqua, intervalloFertilizzante;
 
 
     @Override
@@ -61,7 +73,7 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dettagli_pianta_utente);
 
-        idPossesso = 1;
+        Intent intent = getIntent();
 
         mImmagine = (ImageView) findViewById(R.id.immagine);
         mNomeUtente = (TextView) findViewById(R.id.nome_utente);
@@ -94,9 +106,16 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         ((Button) findViewById(R.id.verifica_luce)).setOnClickListener(this);
         ((Button) findViewById(R.id.info_pianta)).setOnClickListener(this);
 
-        setScrollableDescriptions();
+        idPossesso = intent.getIntExtra(ID, -1);
+        mNomeUtente.setText(intent.getStringExtra(NOME_ASSEGNATO));
+        mNomeGenerico.setText(intent.getStringExtra(NOME_GENERALE));
+        mLivelloAcqua.setProgress(intent.getIntExtra(LIVELLO_ACQUA, 0) * 10);
+        mLivelloFertilizzante.setProgress(intent.getIntExtra(LIVELLO_CONCIMAZIONE, 0) * 10);
+        Picasso.with(this).load(intent.getStringExtra(IMMAGINE)).into(mImmagine);
 
-        Picasso.with(this).load("http://forgetmenot.ddns.net/ForgetMeNot/Immagini/narciso.jpg").into(mImmagine);
+        Log.v(TAG, "nomi: " + intent.getStringExtra(NOME_ASSEGNATO) + ", " + intent.getStringExtra(NOME_GENERALE) + ", id: " + idPossesso);
+
+        setScrollableDescriptions();
 
         downloadDettagli(URL_GET_DETTAGLI + idPossesso);
     }
@@ -176,9 +195,11 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         switch (view.getId()) {
             case R.id.aggiorna_data_acqua:
                 aggiornaData(URL_AGGIORNA_DATA_ACQUA);
+                impostaNotificaInnaffiamento();
                 break;
             case R.id.aggiorna_data_concimazione:
                 aggiornaData(URL_AGGIORNA_DATA_CONCIMAZIONE);
+                impostaNotificaFertilizzante();
                 break;
             case R.id.verifica_luce:
                 //fa partire l'activity per la verifica della luce
@@ -197,20 +218,17 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
             mLivelloLuce.setProgress(obj.getInt("luce"));
             mDescrizioneAcqua.setText(obj.getString("descrizioneAcqua"));
             mDescrizioneFertilizzante.setText(obj.getString("descrizioneConcimazione"));
-            int in = obj.getInt("acqua");
-            mIntervalloAcqua.setText(in + ((in == 1)? " giorno" : " giorni"));
-            in = obj.getInt("intervalloConcimazione");
-            mIntervalloFertilizzante.setText(in + ((in == 1)? " giorno" : " giorni"));
+            intervalloAcqua = obj.getInt("acqua");
+            mIntervalloAcqua.setText(intervalloAcqua + ((intervalloAcqua == 1)? " giorno" : " giorni"));
+            intervalloFertilizzante = obj.getInt("intervalloConcimazione");
+            mIntervalloFertilizzante.setText(intervalloFertilizzante + ((intervalloFertilizzante == 1)? " giorno" : " giorni"));
             mDataUltimaAcqua.setText(obj.getString("dataUltimaAcqua"));
             mDataUltimoFertilizzante.setText(obj.getString("dataUltimoFertilizzante"));
-
             lon = obj.getDouble("gpslong");
             lat = obj.getDouble("gpslat");
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         downloadMeteo();
     }
 
@@ -225,10 +243,10 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         }
         final String body = obj.toString();
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, obj,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(JSONObject response) {
                         Log.v(TAG, "Aggiornamento data riuscito!");
                     }
                 }, new Response.ErrorListener() {
@@ -237,13 +255,8 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
                 error.printStackTrace();
                 Log.v(TAG, "Errore nell'aggiornamento della data");
             }
-        }){
-            @Override
-            public byte[] getBody() throws AuthFailureError {
-                return body.getBytes();
-            }
-        };
-        queue.add(stringRequest);
+        });
+        queue.add(jsonRequest);
     }
 
 
@@ -279,5 +292,37 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         } catch(JSONException e) {
             e.printStackTrace();
         }
+    }
+
+
+    private void impostaNotificaInnaffiamento() {
+        Calendar alarmAcqua = Calendar.getInstance();
+        alarmAcqua.add(Calendar.DATE, intervalloAcqua);
+
+        Intent intent = new Intent(this, NotificationService.class).setAction(NotificationService.ACTION_NOTIFICA_ACQUA);
+        Intent i = getIntent();
+        intent.putExtras(i);
+        Log.v(TAG, "SERVICE: nomi: " + intent.getStringExtra(NOME_ASSEGNATO) + ", " + intent.getStringExtra(NOME_GENERALE) + ", id: " + intent.getIntExtra(ID, -1));
+        PendingIntent pendingIntent = PendingIntent.getService(this, idPossesso, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+        am.cancel(pendingIntent);
+        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 30000, pendingIntent);
+    }
+
+
+    private void impostaNotificaFertilizzante() {
+        Calendar alarmFertilizzante = Calendar.getInstance();
+        alarmFertilizzante.add(Calendar.DATE, intervalloFertilizzante);
+
+        Intent intent = new Intent(this, NotificationService.class).setAction(NotificationService.ACTION_NOTIFICA_FERTILIZZANTE);
+        Intent i = getIntent();
+        intent.putExtras(i);
+        Log.v(TAG, "SERVICE: nomi: " + intent.getStringExtra(NOME_ASSEGNATO) + ", " + intent.getStringExtra(NOME_GENERALE) + ", id: " + intent.getIntExtra(ID, -1));
+        PendingIntent pendingIntent = PendingIntent.getService(this, idPossesso, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+        am.cancel(pendingIntent);
+        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + alarmFertilizzante.getTimeInMillis(), pendingIntent);
     }
 }
