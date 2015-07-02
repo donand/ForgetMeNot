@@ -1,0 +1,88 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context="com.forgetmenot.forgetmenot.AggiungiPianta">
+
+    <TextView
+        android:id="@+id/tTipo"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tipo"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <Spinner
+            android:id="@+id/typeSpin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="35dp"
+            android:popupBackground="@color/colorPrimary"
+            android:spinnerMode="dropdown"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tNome"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="70dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nome"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/eNome"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="80dp"
+            android:hint="@string/scegliNome"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tIndirizzo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Indirizzo"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="130dp"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/eIndirizzo"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="140dp"
+            android:hint="@string/scegliIndirizzo" />
+
+        <ImageButton
+            android:id="@+id/gps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/gps"
+            android:background="@null"
+            android:layout_marginTop="140dp"
+            android:clickable="true" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="100dp" />
+
+</RelativeLayout>
