@@ -25,11 +25,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class MainActivity extends ActionBarActivity implements TaskCallbackElenco {
+public class MainActivity extends ActionBarActivity implements TaskCallbackElenco, View.OnClickListener {
     String prova ;
     JSONArray elencoPiante=null;
     ImageButton fabUpload;
     SharedPreferences pref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +41,7 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
         fabUpload = (ImageButton)findViewById(R.id.fab);
         fabUpload.setVisibility(View.VISIBLE);
         fabUpload.bringToFront();
+        fabUpload.setOnClickListener(this);
 
         String idUtente=pref.getString("idUtente", null);
 
@@ -137,6 +139,15 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
         else {
             messaggioIniziale.setText("Le tue piante stanno bene.");
             messaggioIniziale.setTextColor(Color.parseColor("#4CAF50"));
+        }
+    }
+
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.fab:
+                Intent i = new Intent(this, AggiungiPianta.class);
+                startActivity(i);
+                break;
         }
     }
 

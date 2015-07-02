@@ -1,6 +1,7 @@
 package com.forgetmenot.forgetmenot;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.support.v7.app.ActionBarActivity;
@@ -76,6 +77,10 @@ public class AggiungiPianta extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aggiungi_pianta);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        utenteID = Integer.parseInt(pref.getString("idUtente", null));
+
         //setting gps button
         gps = (ImageButton) findViewById(R.id.gps);
         gps.setOnClickListener(new OnClickListener() {
@@ -283,7 +288,6 @@ public class AggiungiPianta extends ActionBarActivity {
     }
 
     private void addPlant(){
-        utenteID = 2;
         editNomePianta = (EditText) findViewById(R.id.eNome);
         nomePianta = editNomePianta.getText().toString();
         eIndirizzo = (EditText) findViewById(R.id.eIndirizzo);
@@ -321,6 +325,7 @@ public class AggiungiPianta extends ActionBarActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        finish();
                     }
                 }, new Response.ErrorListener() {
             @Override
