@@ -21,6 +21,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.forgetmenot.forgetmenot.utils.CircleTransform;
 import com.squareup.picasso.*;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -72,10 +74,12 @@ public class SearchActivity extends Activity implements TaskCallbackGetRisultati
     }
     public void done(String result){
         try{
-            TextView nome=(TextView)findViewById(R.id.nomePianta);
+            TextView ris=(TextView)findViewById(R.id.risultato);
             if(result.equals(null) || result.equals("")){
-                nome.setVisibility(View.VISIBLE);
-                nome.setText("Nessuna pianta corrisponde alla tua ricerca.");
+                ris.setText("Nessuna pianta corrisponde alla tua ricerca.");
+            }
+            else{
+                ris.setText("Pianta trovata: ");
             }
             JSONObject o=new JSONObject(result);
             String nomePianta=o.getString("nome");
@@ -85,12 +89,11 @@ public class SearchActivity extends Activity implements TaskCallbackGetRisultati
             /*String nomeR="Nome";
             String immagineR="http://www.drogbaster.it/immagini-3d/album/slides/immagini-tridimensionali%20(5).jpg";*/
             ImageView immagine=(ImageView)findViewById(R.id.immaginePianta);
-            immagine.setVisibility(View.VISIBLE);
 
-            nome.setVisibility(View.VISIBLE);
+            TextView nome=(TextView)findViewById(R.id.nomePianta);
             nome.setText(nomePianta);
             Picasso.with(getApplicationContext())
-                    .load(foto).into(immagine);
+                    .load(foto).transform(new CircleTransform()).into(immagine);
         }
         catch(Exception e){
             e.printStackTrace();

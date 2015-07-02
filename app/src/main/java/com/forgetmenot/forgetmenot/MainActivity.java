@@ -132,12 +132,11 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
         if(bad){
             messaggioIniziale.setText("Attenzione. Qualcuna delle tue piante ha bisogno di cure.");
             messaggioIniziale.setTextColor(Color.RED);
-            messaggioIniziale.setGravity(Gravity.CENTER);
+
         }
-        else{
+        else {
             messaggioIniziale.setText("Le tue piante stanno bene.");
-            messaggioIniziale.setTextColor(Color.GREEN);
-            messaggioIniziale.setGravity(Gravity.CENTER);
+            messaggioIniziale.setTextColor(Color.parseColor("#4CAF50"));
         }
     }
 

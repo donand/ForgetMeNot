@@ -64,6 +64,8 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
     private TextView mCittà, mTemperaturaMin, mTemperaturaMax, mTemperaturaAttuale;
     private ImageView mIconaMeteo;
 
+    private TextView scopriNegozi;
+
     private double lat, lon;
     private int idPossesso, intervalloAcqua, intervalloFertilizzante;
 
@@ -100,6 +102,9 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         mTemperaturaMax = (TextView) findViewById(R.id.temperatura_max);
         mTemperaturaAttuale = (TextView) findViewById(R.id.temperatura_attuale);
         mIconaMeteo = (ImageView) findViewById(R.id.icona_meteo);
+
+        scopriNegozi=(TextView)findViewById(R.id.scopri);
+        scopriNegozi.setOnClickListener(this);
 
         ((Button) findViewById(R.id.aggiorna_data_acqua)).setOnClickListener(this);
         ((Button) findViewById(R.id.aggiorna_data_concimazione)).setOnClickListener(this);
@@ -207,6 +212,11 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
             case R.id.info_pianta:
                 //fa partire l'activity dei dettagli generali di una pianta
                 break;
+            case R.id.scopri:
+                Intent i = new Intent(DettagliPiantaUtente.this, Mappa.class);
+                i.putExtra("lat", lat);
+                i.putExtra("lon", lon);
+                this.startActivity(i);
         }
     }
 
