@@ -336,3 +336,4 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + alarmFertilizzante.getTimeInMillis(), pendingIntent);
     }
 }
+//CIAO
