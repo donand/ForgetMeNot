@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.forgetmenot.forgetmenot.DettagliGeneraliPianta">
+    <item android:id="@+id/aggiungi"
+        android:title="Aggiungi"
+        android:icon="@drawable/add"
+        app:showAsAction="always" />
+
+
+</menu>
