@@ -7,4 +7,8 @@
     <string name="title_activity_dettagli_pianta_utente">DettagliPiantaUtente</string>
     <string name="title_activity_search">SearchActivity</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="title_activity_aggiungi_pianta">AggiungiPianta</string>
+    <string name="scegliNome">Dai un nome alla pianta</string>
+    <string name="scegliTipo">Scegli il tipo della pianta fra quelli presenti</string>
+    <string name="scegliIndirizzo">Usa la localizzazione GPS</string>
 </resources>
