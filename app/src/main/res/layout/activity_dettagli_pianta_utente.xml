@@ -42,17 +42,10 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@+id/immagine"
-            android:layout_toLeftOf="@+id/switch_notifiche"
+            android:layout_alignParentRight="true"
             android:text="My Tulipan"
             android:textSize="23sp"
             android:textStyle="bold" />
-
-        <Switch
-            android:id="@+id/switch_notifiche"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true" />
 
         <TextView
             android:id="@+id/nome_generico"
@@ -224,8 +217,15 @@
                     android:layout_alignParentTop="true"
                     android:gravity="center"
                     android:text="Acqua"
-                    android:textSize="20sp"
+                    android:textSize="23sp"
                     android:textStyle="bold" />
+
+                <Switch
+                    android:id="@+id/switch_notifiche_acqua"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true" />
 
                 <ImageView
                     android:id="@+id/icona_acqua"
@@ -344,8 +344,15 @@
                     android:layout_alignParentTop="true"
                     android:gravity="center"
                     android:text="Fertilizzante"
-                    android:textSize="20sp"
+                    android:textSize="23sp"
                     android:textStyle="bold" />
+
+                <Switch
+                    android:id="@+id/switch_notifiche_fertilizzante"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true" />
 
                 <ImageView
                     android:id="@+id/icona_fertilizzante"
@@ -464,7 +471,7 @@
                     android:layout_alignParentTop="true"
                     android:gravity="center"
                     android:text="Luce"
-                    android:textSize="20sp"
+                    android:textSize="23sp"
                     android:textStyle="bold" />
 
                 <ImageView
