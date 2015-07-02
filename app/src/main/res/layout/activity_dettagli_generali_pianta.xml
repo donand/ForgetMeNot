@@ -1,0 +1,357 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:background="@color/sfondoInfopianta"
+    tools:context="com.forgetmenot.forgetmenot.DettagliGeneraliPianta">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="0dp"
+        android:paddingBottom="10dp">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            android:id="@+id/linlay">
+
+            <ImageView
+                android:id="@+id/immaginePianta"
+                android:layout_width="100dp"
+                android:layout_height="100dp"/>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical"
+                android:id="@+id/linlay2"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="NOME PIANTA"
+                    android:id="@+id/nomePianta"
+                    android:gravity="center_vertical"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_below="@+id/linlay"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical"
+            android:id="@+id/info1">
+
+            <ImageView
+                android:id="@+id/info"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/info"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Informazioni generali"
+                android:id="@+id/infoGeneraliPiantaTitolo"
+                android:textStyle="bold"
+                android:layout_toRightOf="@id/info"
+                android:layout_marginLeft="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Questa pianta e molto bella"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/info"
+                android:id="@+id/infoGeneraliPianta"
+                android:layout_gravity="center_vertical|right"
+                android:layout_below="@+id/infoGeneraliPiantaTitolo"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_below="@+id/info1"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical"
+            android:id="@+id/info2">
+
+            <ImageView
+                android:id="@+id/iconaAcqua"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/innaffiatoio"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Informazioni Annaffiamento"
+                android:id="@+id/infoAcquaTitolo"
+                android:textStyle="bold"
+                android:layout_toRightOf="@id/iconaAcqua"
+                android:layout_marginLeft="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CIAO "
+                android:id="@+id/infoAcqua"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/iconaAcqua"
+                android:layout_below="@+id/infoAcquaTitolo"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_below="@+id/info2"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical"
+            android:id="@+id/info3">
+            <ImageView
+                android:id="@+id/iconaConcimazione"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/concime"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Informazioni Concimazione"
+                android:id="@+id/infoConcimazioneTitolo"
+                android:textStyle="bold"
+                android:layout_toRightOf="@id/iconaConcimazione"
+                android:layout_marginLeft="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CIAO "
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/iconaConcimazione"
+                android:id="@+id/infoConcimazione"
+                android:layout_below="@+id/infoConcimazioneTitolo"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_below="@+id/info3"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical"
+            android:id="@+id/info4">
+            <ImageView
+                android:id="@+id/iconaFioritura"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/fioritura"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fioritura"
+                android:id="@+id/infoFiorituraTitolo"
+                android:textStyle="bold"
+                android:layout_toRightOf="@id/iconaFioritura"
+                android:layout_marginLeft="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CIAO "
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/iconaFioritura"
+                android:id="@+id/infoFioritura"
+                android:layout_below="@+id/infoFiorituraTitolo"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_below="@+id/info4"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical"
+            android:id="@+id/info5">
+            <ImageView
+                android:id="@+id/iconaPotatura"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/potatura"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Potatura"
+                android:id="@+id/infoPotaturaTitolo"
+                android:textStyle="bold"
+                android:layout_toRightOf="@id/iconaPotatura"
+                android:layout_marginLeft="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CIAO "
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/iconaPotatura"
+                android:id="@+id/infoPotatura"
+                android:layout_below="@+id/infoPotaturaTitolo"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_below="@+id/info5"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical"
+            android:id="@+id/info6">
+            <ImageView
+                android:id="@+id/iconaTerreno"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/terreno"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Terreno"
+                android:id="@+id/infoTerrenoTitolo"
+                android:textStyle="bold"
+                android:layout_toRightOf="@id/iconaTerreno"
+                android:layout_marginLeft="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CIAO "
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/iconaTerreno"
+                android:id="@+id/infoTerreno"
+                android:layout_below="@+id/infoTerrenoTitolo"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_below="@+id/info6"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical"
+            android:id="@+id/info7">
+            <ImageView
+                android:id="@+id/iconaSole"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/sun"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Luce"
+                android:layout_toRightOf="@id/iconaSole"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/infoLuceTitolo"
+                android:textStyle="bold"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+            <ProgressBar
+                android:id="@+id/progress_bar_luce"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="1500dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/infoLuceTitolo"
+                android:layout_marginTop="12dp"
+                android:progress="50"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/iconaSole"
+                android:progressTint="#F28D01" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3/5"
+                android:textColor="@color/colorPrimary"
+                android:id="@+id/livelloLuce"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/iconaSole"
+                android:textStyle="bold"
+                android:layout_below="@id/progress_bar_luce"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+
+</ScrollView>

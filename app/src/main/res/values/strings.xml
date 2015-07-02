@@ -12,4 +12,6 @@
     <string name="scegliNome">Dai un nome alla pianta</string>
     <string name="scegliTipo">Scegli il tipo della pianta fra quelli presenti</string>
     <string name="scegliIndirizzo">Usa la localizzazione GPS</string>
+    <string name="title_activity_dettagli_generali_pianta">DettagliGeneraliPianta</string>
+    <string name="title_activity_visual_search">VisualSearch</string>
 </resources>

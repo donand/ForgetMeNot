@@ -87,6 +87,10 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
             onSearchRequested();
             return true;
         }
+        if(id==R.id.foto){
+            Intent i = new Intent(MainActivity.this, VisualSearch.class);
+            this.startActivity(i);
+        }
 
         return super.onOptionsItemSelected(item);
     }
