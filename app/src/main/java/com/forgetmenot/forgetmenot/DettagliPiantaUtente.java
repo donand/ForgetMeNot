@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
@@ -59,25 +60,21 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
     public static final String IMMAGINE = "com.forgetmenot.forgetmenot.immagine";
     public static final String ID = "com.forgetmenot.forgetmenot.id";
 
+    public static final int LIVELLO_WARNING = 2;
     private static final int MILLISECONDS_IN_A_DAY = 1000*60*60*24;
 
     private ImageView mImmagine;
     private TextView mNomeUtente, mNomeGenerico, mIndirizzo;
-
     private ProgressBar mLivelloAcqua, mLivelloFertilizzante, mLivelloLuce;
-
     private TextView mDescrizioneAcqua, mDescrizioneFertilizzante, mDescrizioneLuce;
-
     private TextView mIntervalloAcqua, mIntervalloFertilizzante;
-
     private TextView mDataUltimaAcqua, mDataUltimoFertilizzante, mDataProssimaAcqua, mDataProssimoFertilizzante;
-
     private TextView mCittà, mTemperaturaMin, mTemperaturaMax, mTemperaturaAttuale;
-    private ImageView mIconaMeteo;
-
-    private TextView scopriNegozi;
-
+    private ImageView mIconaMeteo, mIconaStatoPianta;
+    private Button scopriNegozi;
     private Switch mSwitchAcqua, mSwitchFertilizzante;
+    private CardView mCardViewMessaggioStato;
+    private TextView mMessaggioStatoPianta;
 
     private double lat, lon;
     private int idPossesso, intervalloAcqua, intervalloFertilizzante;
@@ -121,17 +118,20 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         mTemperaturaAttuale = (TextView) findViewById(R.id.temperatura_attuale);
         mIconaMeteo = (ImageView) findViewById(R.id.icona_meteo);
 
-        scopriNegozi=(TextView)findViewById(R.id.scopri);
+        scopriNegozi = (Button) findViewById(R.id.scopri_negozi);
         scopriNegozi.setOnClickListener(this);
 
         mSwitchAcqua = (Switch) findViewById(R.id.switch_notifiche_acqua);
         mSwitchFertilizzante = (Switch) findViewById(R.id.switch_notifiche_fertilizzante);
 
+        mCardViewMessaggioStato = (CardView) findViewById(R.id.cardview_messaggio);
+        mMessaggioStatoPianta = (TextView) findViewById(R.id.messaggio_stato_pianta);
+        mIconaStatoPianta = (ImageView) findViewById(R.id.icona_stato_pianta);
+
         ((Button) findViewById(R.id.aggiorna_data_acqua)).setOnClickListener(this);
         ((Button) findViewById(R.id.aggiorna_data_concimazione)).setOnClickListener(this);
         ((Button) findViewById(R.id.verifica_luce)).setOnClickListener(this);
         ((Button) findViewById(R.id.info_pianta)).setOnClickListener(this);
-
         idPossesso = intent.getIntExtra(ID, -1);
         mNomeUtente.setText(intent.getStringExtra(NOME_ASSEGNATO));
         mNomeGenerico.setText(intent.getStringExtra(NOME_GENERALE));
@@ -229,6 +229,26 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         });
     }
 
+    private void setMessaggioStato() {
+        int livelloAcqua = mLivelloAcqua.getProgress();
+        int livelloFertilizzante = mLivelloFertilizzante.getProgress();
+
+        if (livelloAcqua == 0 || livelloFertilizzante == 0) {
+            mCardViewMessaggioStato.setCardBackgroundColor(getResources().getColor(R.color.material_red));
+            mMessaggioStatoPianta.setText("Attenzione! La pianta ha bisogno di cure!");
+            mIconaStatoPianta.setImageResource(R.drawable.bad_white);
+        } else if (livelloAcqua <= LIVELLO_WARNING || livelloFertilizzante <= LIVELLO_WARNING) {
+            mCardViewMessaggioStato.setCardBackgroundColor(getResources().getColor(R.color.material_yellow));
+            mMessaggioStatoPianta.setText("Attenzione! La pianta avrà presto bisogno di cure!");
+            mIconaStatoPianta.setImageResource(R.drawable.neutral_white);
+        }
+        else {
+            mCardViewMessaggioStato.setCardBackgroundColor(getResources().getColor(R.color.material_green));
+            mMessaggioStatoPianta.setText("La pianta sta bene!");
+            mIconaStatoPianta.setImageResource(R.drawable.happy_white);
+        }
+    }
+
 
     private void downloadDettagli(String url) {
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -270,7 +290,7 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
             case R.id.info_pianta:
                 //fa partire l'activity dei dettagli generali di una pianta
                 break;
-            case R.id.scopri:
+            case R.id.scopri_negozi:
                 Intent i = new Intent(DettagliPiantaUtente.this, Mappa.class);
                 i.putExtra("lat", lat);
                 i.putExtra("lon", lon);
@@ -310,17 +330,17 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
             mSwitchAcqua.setChecked(notificheAcqua);
             notificheFertilizzante = obj.getBoolean("notificheFertilizzante");
             mSwitchFertilizzante.setChecked(notificheFertilizzante);
-
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (ParseException e1) {
             e1.printStackTrace();
         }
         downloadMeteo();
+        setMessaggioStato();
     }
 
 
-    private void aggiornaData(String url) {
+    private void aggiornaData(final String url) {
         JSONObject obj = null;
         try {
             obj = new JSONObject();
@@ -328,13 +348,16 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        final String body = obj.toString();
         RequestQueue queue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, url, obj,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.v(TAG, "Aggiornamento data riuscito!");
+                        if (url.equals(URL_AGGIORNA_DATA_ACQUA))
+                            mLivelloAcqua.setProgress(100);
+                        else
+                            mLivelloFertilizzante.setProgress(100);
                     }
                 }, new Response.ErrorListener() {
             @Override
