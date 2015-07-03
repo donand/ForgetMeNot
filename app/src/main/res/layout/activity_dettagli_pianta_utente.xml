@@ -225,7 +225,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true" />
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="3dp"/>
 
                 <ImageView
                     android:id="@+id/icona_acqua"
@@ -288,11 +289,31 @@
                     android:layout_below="@id/label_intervallo_acqua"
                     android:text="23/05/2015"/>
 
+                <TextView
+                    android:id="@+id/label_data_prossima_acqua"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/label_data_acqua"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="3dp"
+                    android:text="Prossima volta: "
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/data_prossima_acqua"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/label_data_prossima_acqua"
+                    android:layout_below="@id/label_data_acqua"
+                    android:text="23/05/2015"/>
+
                 <View
                     android:id="@+id/separatore_acqua"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@id/label_data_acqua"
+                    android:layout_below="@id/label_data_prossima_acqua"
                     android:layout_marginBottom="15dp"
                     android:layout_marginTop="5dp"
                     android:background="@color/material_grey" />
@@ -302,7 +323,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/separatore_acqua"
-                    android:maxLines="8"
+                    android:maxLines="5"
                     android:scrollbars="vertical"
                     android:text="Descrizione acqua, bla bla cose a caso. Siete tutti cani" />
 
@@ -352,7 +373,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true" />
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="3dp"/>
 
                 <ImageView
                     android:id="@+id/icona_fertilizzante"
@@ -415,11 +437,31 @@
                     android:layout_below="@id/label_intervallo_fertilizzante"
                     android:text="23/05/2015"/>
 
+                <TextView
+                    android:id="@+id/label_data_prossimo_fertilizzante"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/label_data_fertilizzante"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="3dp"
+                    android:text="Prossima volta: "
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/data_prossimo_fertilizzante"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/label_data_prossimo_fertilizzante"
+                    android:layout_below="@id/label_data_fertilizzante"
+                    android:text="23/05/2015"/>
+
                 <View
                     android:id="@+id/separatore_fertilizante"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@id/label_data_fertilizzante"
+                    android:layout_below="@id/label_data_prossimo_fertilizzante"
                     android:layout_marginBottom="15dp"
                     android:layout_marginTop="5dp"
                     android:background="@color/material_grey" />
@@ -429,7 +471,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/separatore_fertilizante"
-                    android:maxLines="8"
+                    android:maxLines="5"
                     android:scrollbars="vertical"
                     android:text="Descrizione fertilizzante, bla bla cose a caso. Siete tutti cani" />
 

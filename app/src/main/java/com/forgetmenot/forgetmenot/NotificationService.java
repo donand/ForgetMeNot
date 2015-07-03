@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.Context;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 /**
@@ -60,11 +61,21 @@ public class NotificationService extends IntentService {
         Log.v(TAG, "nomi: " + intent.getStringExtra(DettagliPiantaUtente.NOME_ASSEGNATO) + ", " + intent.getStringExtra(DettagliPiantaUtente.NOME_GENERALE) + ", " +
                 "id: " + intent.getIntExtra(DettagliPiantaUtente.ID, -1));
         long[] pattern = {0, 300, 0};
-        PendingIntent pi = PendingIntent.getActivity(this, idPossesso, intent, 0);
+        //PendingIntent pi = PendingIntent.getActivity(this, idPossesso, intent, 0);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        // Adds the back stack
+        stackBuilder.addParentStack(DettagliPiantaUtente.class);
+        // Adds the Intent to the top of the stack
+        stackBuilder.addNextIntent(intent);
+        // Gets a PendingIntent containing the entire back stack
+        PendingIntent pi =
+                stackBuilder.getPendingIntent(idPossesso, PendingIntent.FLAG_UPDATE_CURRENT);
+
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.fmn_logo)
                 .setContentTitle("Innaffia " + nomeAssegnato)
-                .setContentText("")
+                .setContentText("La tua pianta ha bisogno di essere innaffiata!")
                 .setVibrate(pattern)
                 .setAutoCancel(true);
 
@@ -86,7 +97,7 @@ public class NotificationService extends IntentService {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.fmn_logo)
                 .setContentTitle("Concima " + nomeAssegnato)
-                .setContentText("")
+                .setContentText("La tua pianta ha bisogno di essere concimata!")
                 .setVibrate(pattern)
                 .setAutoCancel(true);
 
