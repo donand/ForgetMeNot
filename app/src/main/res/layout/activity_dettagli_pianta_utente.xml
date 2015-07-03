@@ -604,6 +604,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
+            android:padding="15dp"
             android:layout_below="@+id/cardview_luce"
             android:text="Scopri i negozi di giardinaggio più vicini a te!"
             android:textColor="@color/white"
