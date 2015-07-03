@@ -120,13 +120,17 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
 
     private void impostaMessaggioIniziale(JSONArray result){
         boolean bad=false;
+        boolean warning=false;
         for(int i=0; i<result.length(); i++){
             try{
                 JSONObject o=result.getJSONObject(i);
                 int livelloAcqua=o.getInt("livelloAcqua");
                 int livelloFertilizzante=o.getInt("livelloConcimazione");
-                if(livelloAcqua<=5 || livelloFertilizzante<=5){
+                if(livelloAcqua==0 || livelloFertilizzante==0){
                     bad=true;
+                }
+                else if(!bad && (livelloAcqua<=2 || livelloFertilizzante<=2)){
+                    warning=true;
                 }
             }
             catch (JSONException e){
@@ -136,9 +140,13 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
         TextView messaggioIniziale=(TextView)findViewById(R.id.messaggio);
 
         if(bad){
-            messaggioIniziale.setText("Attenzione. Qualcuna delle tue piante ha bisogno di cure.");
+            messaggioIniziale.setText("Attenzione! Qualcuna delle tue piante ha bisogno di cure!");
             messaggioIniziale.setTextColor(Color.RED);
 
+        }
+        else if(!bad && warning){
+            messaggioIniziale.setText("Attenzione! Qualcuna delle tue piante avrà presto bisogno di cure!");
+            messaggioIniziale.setTextColor(getResources().getColor(R.color.material_yellow));
         }
         else {
             messaggioIniziale.setText("Le tue piante stanno bene.");
