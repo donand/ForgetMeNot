@@ -1,45 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/messaggio"
-            android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/cardview_messaggio"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center"
-            android:textStyle="bold" />
+            android:layout_below="@+id/cardview_messaggio"
+            android:layout_margin="10dp"
+            card_view:cardBackgroundColor="@color/colorPrimary"
+            card_view:cardCornerRadius="2dp"
+            card_view:cardElevation="2dp">
+
+            <TextView
+                android:id="@+id/messaggio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                android:textColor="@color/white" />
+        </android.support.v7.widget.CardView>
+
         <ListView
             android:id="@+id/piante"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:divider="@null"/>
+            android:divider="@null" />
 
 
     </LinearLayout>
 
-    <ImageButton style="@style/AppTheme"
+    <ImageButton
+        android:id="@+id/fab"
+        style="@style/AppTheme"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/fab"
-        android:src="@drawable/plus"
-        android:background="@drawable/fab"
-        android:layout_gravity="end"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="end"
         android:layout_marginBottom="24dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
-        android:layout_marginEnd="24dp"/>
+        android:background="@drawable/fab"
+        android:src="@drawable/plus" />
 
 </RelativeLayout>

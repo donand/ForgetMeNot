@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -138,19 +139,20 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
             }
         }
         TextView messaggioIniziale=(TextView)findViewById(R.id.messaggio);
+        CardView cardMessaggioIniziale = (CardView) findViewById(R.id.cardview_messaggio);
 
         if(bad){
             messaggioIniziale.setText("Attenzione! Qualcuna delle tue piante ha bisogno di cure!");
-            messaggioIniziale.setTextColor(Color.RED);
+            cardMessaggioIniziale.setCardBackgroundColor(getResources().getColor(R.color.material_red));
 
         }
-        else if(!bad && warning){
+        else if(warning){
             messaggioIniziale.setText("Attenzione! Qualcuna delle tue piante avrà presto bisogno di cure!");
-            messaggioIniziale.setTextColor(getResources().getColor(R.color.material_yellow));
+            cardMessaggioIniziale.setCardBackgroundColor(getResources().getColor(R.color.material_yellow));
         }
         else {
             messaggioIniziale.setText("Le tue piante stanno bene.");
-            messaggioIniziale.setTextColor(Color.parseColor("#4CAF50"));
+            cardMessaggioIniziale.setCardBackgroundColor(getResources().getColor(R.color.material_green));
         }
     }
 
@@ -162,5 +164,4 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
                 break;
         }
     }
-    //provamerge
 }
