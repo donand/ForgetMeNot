@@ -67,7 +67,7 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
     private TextView mNomeUtente, mNomeGenerico, mIndirizzo;
     private ProgressBar mLivelloAcqua, mLivelloFertilizzante, mLivelloLuce;
     private TextView mDescrizioneAcqua, mDescrizioneFertilizzante, mDescrizioneLuce;
-    private TextView mIntervalloAcqua, mIntervalloFertilizzante;
+    private TextView mIntervalloAcqua, mIntervalloFertilizzante, mTextViewLivelloLuce;
     private TextView mDataUltimaAcqua, mDataUltimoFertilizzante, mDataProssimaAcqua, mDataProssimoFertilizzante;
     private TextView mCittà, mTemperaturaMin, mTemperaturaMax, mTemperaturaAttuale;
     private ImageView mIconaMeteo, mIconaStatoPianta;
@@ -106,6 +106,7 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
 
         mIntervalloAcqua = (TextView) findViewById(R.id.intervallo_acqua);
         mIntervalloFertilizzante = (TextView) findViewById(R.id.intervallo_fertilizzante);
+        mTextViewLivelloLuce = (TextView) findViewById(R.id.livello_luce);
 
         mDataUltimaAcqua = (TextView) findViewById(R.id.data_acqua);
         mDataUltimoFertilizzante = (TextView) findViewById(R.id.data_fertilizzante);
@@ -306,7 +307,8 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         try {
             obj = new JSONObject(result);
             mIndirizzo.setText(obj.getString("indirizzo"));
-            mLivelloLuce.setProgress(obj.getInt("luce"));
+            mTextViewLivelloLuce.setText(obj.getInt("luce") + "/5");
+            mLivelloLuce.setProgress(obj.getInt("luce") * 20);
             mDescrizioneAcqua.setText(obj.getString("descrizioneAcqua"));
             mDescrizioneFertilizzante.setText(obj.getString("descrizioneConcimazione"));
 

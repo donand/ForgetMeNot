@@ -26,9 +26,10 @@ import android.widget.Toast;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
-import org.json.JSONArray;
+import com.forgetmenot.forgetmenot.network.GetPianteConCertaLuce;
+import com.forgetmenot.forgetmenot.network.TaskCallbackElencoPianteConCertaLuce;
 
-import java.net.URLClassLoader;
+import org.json.JSONArray;
 
 public class VerificaLuce extends AppCompatActivity implements SensorEventListener, TaskCallbackElencoPianteConCertaLuce {
 

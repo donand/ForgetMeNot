@@ -1,4 +1,4 @@
-package com.forgetmenot.forgetmenot;
+package com.forgetmenot.forgetmenot.network;
 
 /**
  * Created by Sara on 28/06/2015.

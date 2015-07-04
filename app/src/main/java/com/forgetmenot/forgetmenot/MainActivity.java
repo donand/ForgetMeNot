@@ -4,22 +4,19 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.forgetmenot.forgetmenot.network.GetElencoPianteUtente;
+import com.forgetmenot.forgetmenot.network.TaskCallbackElenco;
 
 import org.json.JSONArray;
 import org.json.JSONException;

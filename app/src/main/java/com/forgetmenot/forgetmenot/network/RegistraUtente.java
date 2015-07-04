@@ -1,6 +1,8 @@
-package com.forgetmenot.forgetmenot;
+package com.forgetmenot.forgetmenot.network;
 
 import android.os.AsyncTask;
+
+import com.forgetmenot.forgetmenot.network.TaskCallbackUtente;
 
 import org.json.JSONObject;
 

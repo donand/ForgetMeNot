@@ -11,19 +11,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.forgetmenot.forgetmenot.network.GetDettagliGeneraliPianta;
+import com.forgetmenot.forgetmenot.network.TaskCallbackDettagliGeneraliPianta;
+import com.forgetmenot.forgetmenot.utils.CircleTransform;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 
-public class DettagliGeneraliPianta extends AppCompatActivity implements TaskCallbackDettagliGeneraliPianta{
+public class DettagliGeneraliPianta extends AppCompatActivity implements TaskCallbackDettagliGeneraliPianta {
     public final static String URL_DETTAGLI_GENERALI_PIANTA = "http://forgetmenot.ddns.net/ForgetMeNot/GetDatiGeneraliPianta?nome=";
     public String nomePianta;
     JSONObject JSONpianta;
@@ -132,7 +132,7 @@ public class DettagliGeneraliPianta extends AppCompatActivity implements TaskCal
 
             livelloLuce = (JSONpianta.getInt("luce"));
 
-            Picasso.with(getApplicationContext()).load(JSONpianta.getString("immagine")).into(immaginePianta);
+            Picasso.with(getApplicationContext()).load(JSONpianta.getString("immagine")).transform(new CircleTransform()).into(immaginePianta);
 
             tipoPianta = JSONpianta.getString("nome");
 
