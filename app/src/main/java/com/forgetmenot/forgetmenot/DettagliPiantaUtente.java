@@ -285,10 +285,13 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
                     impostaNotificaFertilizzante();
                 break;
             case R.id.verifica_luce:
-                //fa partire l'activity per la verifica della luce
+                Intent intent = new Intent(this, VerificaLuce.class);
+                startActivity(intent);
                 break;
             case R.id.info_pianta:
-                //fa partire l'activity dei dettagli generali di una pianta
+                Intent intent1 = new Intent(this, DettagliGeneraliPianta.class);
+                intent1.putExtra("nome", mNomeGenerico.getText());
+                startActivity(intent1);
                 break;
             case R.id.scopri_negozi:
                 Intent i = new Intent(DettagliPiantaUtente.this, Mappa.class);
