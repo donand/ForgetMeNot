@@ -1,18 +1,26 @@
 package com.forgetmenot.forgetmenot;
 
+import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.MatrixCursor;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.forgetmenot.forgetmenot.network.GetElencoPianteUtente;
@@ -22,12 +30,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.LinkedList;
+import java.util.List;
 
-public class MainActivity extends ActionBarActivity implements TaskCallbackElenco, View.OnClickListener {
+
+public class MainActivity extends ActionBarActivity implements TaskCallbackElenco, TaskCallbackElencoTipi, View.OnClickListener {
     String prova ;
+
+    //piante utente
     JSONArray elencoPiante=null;
+    //piante totali
+    JSONArray elencoPianteGenerali=null;
     ImageButton fabUpload;
     SharedPreferences pref;
+
+    
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +74,81 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        this.menu=menu;
+
+        try {
+            String ricerca = "http://forgetmenot.ddns.net/ForgetMeNot/GetElencoTipiPiante";
+            GetElencoTipiPiante task = new GetElencoTipiPiante(ricerca, this, this.getApplicationContext());
+            task.execute();
+        } catch (Exception e) {
+        }
+
         // Associate searchable configuration with the SearchView
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) (menu.findItem(R.id.search)).getActionView();
+        android.widget.SearchView searchView = (android.widget.SearchView) (menu.findItem(R.id.search)).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                //aspetto che il task completi il jsonarray
+                while(elencoPianteGenerali==null){
+                }
+
+                loadHistory(query);
+
+                return true;
+
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String a) {
+                return true;
+            }
+
+        });
 
         return true;
+    }
+    // History
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private void loadHistory(String query) {
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+
+            // Cursor
+            String[] columns = new String[] { "_id", "text" };
+            Object[] temp = new Object[] { 0, "default" };
+
+            MatrixCursor cursor = new MatrixCursor(columns);
+            JSONArray items=new JSONArray();
+            for(int i = 0; i < elencoPianteGenerali.length(); i++) {
+                try {
+                    temp[0] = i;
+                    JSONObject o=(JSONObject)elencoPianteGenerali.get(i);
+                    temp[1] = o.toString();
+
+                    if (o.getString("nome").toLowerCase().startsWith(query.toLowerCase())){
+                        System.out.println(o.toString());
+                        items.put(o);
+                        cursor.addRow(temp);
+                    }
+
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+
+            // SearchView
+            SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+            final android.widget.SearchView search = (android.widget.SearchView) menu.findItem(R.id.search).getActionView();
+
+            search.setSuggestionsAdapter(new SearchAdapter(this, cursor, items));
+
+        }
+
     }
 
     @Override
@@ -82,7 +169,8 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
         }
 
         if(id==R.id.search){
-            onSearchRequested();
+
+            //onSearchRequested();
             return true;
         }
         if(id==R.id.foto){
@@ -92,6 +180,19 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
 
         return super.onOptionsItemSelected(item);
     }
+
+    //callback from getelencotipipiante
+    public void done(String r, boolean inutile){
+        try{
+            elencoPianteGenerali=new JSONArray(r);
+            System.out.println("FATTO");
+        }
+        catch(JSONException e){
+            e.printStackTrace();
+        }
+    }
+
+    //callback from getelencopianteutente
     public void done(String result){
         try{
             TextView messaggioIniziale=(TextView)findViewById(R.id.messaggio);
@@ -143,7 +244,7 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
             cardMessaggioIniziale.setCardBackgroundColor(getResources().getColor(R.color.material_red));
 
         }
-        else if(warning){
+        else if(!bad && warning){
             messaggioIniziale.setText("Attenzione! Qualcuna delle tue piante avrà presto bisogno di cure!");
             cardMessaggioIniziale.setCardBackgroundColor(getResources().getColor(R.color.material_yellow));
         }
@@ -161,4 +262,5 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
                 break;
         }
     }
+    //provamerge
 }

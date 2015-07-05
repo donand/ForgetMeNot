@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
     <item android:id="@+id/search"
         android:title="Cerca"
-        android:icon="@drawable/search"
-        app:showAsAction="always|collapseActionView"
-        app:actionViewClass="android.support.v7.widget.SearchView" />
+        app:showAsAction="always"
+        app:actionViewClass="android.widget.SearchView" />
     <item android:id="@+id/luce"
         android:title="Verifica Luminosità"
         android:icon="@drawable/sun"
