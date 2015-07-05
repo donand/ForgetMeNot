@@ -1,5 +1,6 @@
 package com.forgetmenot.forgetmenot;
 
+import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +15,6 @@ import android.support.v7.widget.CardView;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -85,7 +85,7 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
 
         // Associate searchable configuration with the SearchView
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) (menu.findItem(R.id.search)).getActionView();
+        android.widget.SearchView searchView = (android.widget.SearchView) (menu.findItem(R.id.search)).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
 
@@ -143,7 +143,7 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
             // SearchView
             SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
-            final SearchView search = (SearchView) menu.findItem(R.id.search).getActionView();
+            final android.widget.SearchView search = (android.widget.SearchView) menu.findItem(R.id.search).getActionView();
 
             search.setSuggestionsAdapter(new SearchAdapter(this, cursor, items));
 
