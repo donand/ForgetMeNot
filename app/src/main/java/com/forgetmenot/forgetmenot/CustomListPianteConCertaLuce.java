@@ -22,7 +22,7 @@ public class CustomListPianteConCertaLuce extends BaseAdapter {
     LayoutInflater inflater;
     private final JSONArray elencoPiante;
 
-
+    String ciao;
     public CustomListPianteConCertaLuce(Activity context, JSONArray elenco) {
         this.inflater = LayoutInflater.from(context);
         this.context = context;
