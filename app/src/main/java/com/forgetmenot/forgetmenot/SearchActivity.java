@@ -3,39 +3,19 @@ package com.forgetmenot.forgetmenot;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.net.Uri;
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONException;
+
 import org.json.JSONObject;
 
+import com.forgetmenot.forgetmenot.network.GetRisultatiRicerca;
+import com.forgetmenot.forgetmenot.network.TaskCallbackGetRisultatiRicerca;
 import com.forgetmenot.forgetmenot.utils.CircleTransform;
 import com.squareup.picasso.*;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
 
 
-public class SearchActivity extends Activity implements TaskCallbackGetRisultatiRicerca{
+public class SearchActivity extends Activity implements TaskCallbackGetRisultatiRicerca {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

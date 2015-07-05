@@ -1,7 +1,12 @@
-package com.forgetmenot.forgetmenot;
+package com.forgetmenot.forgetmenot.network;
+
+/**
+ * Created by Davide on 02/07/15.
+ */
+
+import android.os.AsyncTask;
 
 import android.content.Context;
-import android.os.AsyncTask;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -11,22 +16,25 @@ import java.net.URL;
 /**
  * Created by Sara on 27/06/2015.
  */
-public class GetElencoPianteUtente extends AsyncTask<String, Void, String> {
+public class GetDettagliGeneraliPianta extends AsyncTask<String, Void, String> {
 
     //nome della pianta da cercare.
     private String ricerca;
-    private TaskCallbackElenco main;
+    private TaskCallbackDettagliGeneraliPianta dati;
     private Context context;
 
-    public GetElencoPianteUtente(String q, TaskCallbackElenco a, Context c){
+    public GetDettagliGeneraliPianta(String q, TaskCallbackDettagliGeneraliPianta a, Context c){
         ricerca=q;
-        main=a;
+        dati=a;
         context=c;
     }
 
     @Override
     protected String doInBackground(String... url){
         try{
+
+	/*String nomePianta=getIntent.getExtras().getString("nomePianta");
+	String ricerca="http://forgetmenot.ddns.net/ForgetMeNot/GetDatiGeneraliPianta?nome="+nomePianta;*/
             URL u = new URL(ricerca);
             HttpURLConnection urlConnection = (HttpURLConnection) u.openConnection();
             urlConnection.setRequestMethod("GET");
@@ -50,6 +58,6 @@ public class GetElencoPianteUtente extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         //il booleano serve solo a distinguere i metodi done
-        main.done(result);
+        dati.done(result);
     }
 }

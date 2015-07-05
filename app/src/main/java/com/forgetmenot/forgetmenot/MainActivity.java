@@ -1,6 +1,5 @@
 package com.forgetmenot.forgetmenot;
 
-import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -10,13 +9,13 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.support.v7.widget.SearchView;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -24,7 +23,8 @@ import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.forgetmenot.forgetmenot.network.GetElencoPianteUtente;
+import com.forgetmenot.forgetmenot.network.TaskCallbackElenco;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,8 +44,7 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
     ImageButton fabUpload;
     SharedPreferences pref;
 
-    //per la searchView
-    private JSONArray items;
+    
     private Menu menu;
 
     @Override
@@ -53,18 +52,6 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        items=new JSONArray();
-        JSONObject azalea=new JSONObject();
-        JSONObject primula=new JSONObject();
-        try{
-            azalea.put("nome", "Azalea");
-            primula.put("nome", "Primula");
-            items.put(azalea);
-            items.put(primula);
-        }
-        catch(JSONException e){
-            e.printStackTrace();
-        }
         pref=getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         //floating button
         fabUpload = (ImageButton)findViewById(R.id.fab);
@@ -250,19 +237,20 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
             }
         }
         TextView messaggioIniziale=(TextView)findViewById(R.id.messaggio);
+        CardView cardMessaggioIniziale = (CardView) findViewById(R.id.cardview_messaggio);
 
         if(bad){
             messaggioIniziale.setText("Attenzione! Qualcuna delle tue piante ha bisogno di cure!");
-            messaggioIniziale.setTextColor(Color.RED);
+            cardMessaggioIniziale.setCardBackgroundColor(getResources().getColor(R.color.material_red));
 
         }
         else if(!bad && warning){
             messaggioIniziale.setText("Attenzione! Qualcuna delle tue piante avrà presto bisogno di cure!");
-            messaggioIniziale.setTextColor(getResources().getColor(R.color.material_yellow));
+            cardMessaggioIniziale.setCardBackgroundColor(getResources().getColor(R.color.material_yellow));
         }
         else {
             messaggioIniziale.setText("Le tue piante stanno bene.");
-            messaggioIniziale.setTextColor(Color.parseColor("#4CAF50"));
+            cardMessaggioIniziale.setCardBackgroundColor(getResources().getColor(R.color.material_green));
         }
     }
 
