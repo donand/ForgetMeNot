@@ -24,6 +24,7 @@
         android:icon="@drawable/fmn_logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB6Iw8R4zWO53VGLtlhepDBbNvUHkM80hc"/>
@@ -46,9 +47,15 @@
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name" >
+           <!-- <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchActivity" />-->
             <meta-data
                 android:name="android.app.default_searchable"
-                android:value=".SearchActivity" />
+                android:value="com.example.MainActivity" />
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
         <activity
             android:name=".VerificaLuce"
