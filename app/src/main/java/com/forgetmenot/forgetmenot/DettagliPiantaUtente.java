@@ -40,6 +40,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 
@@ -319,8 +320,13 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
 
             dataUltimaAcqua = inputDateFormat.parse(obj.getString("dataUltimaAcqua"));
             dataUltimoFertilizzante = inputDateFormat.parse(obj.getString("dataUltimoFertilizzante"));
-            dataProssimaAcqua = new Date(dataUltimaAcqua.getTime() + intervalloAcqua*(MILLISECONDS_IN_A_DAY));
-            dataProssimoFertilizzante = new Date(dataUltimoFertilizzante.getTime() + intervalloFertilizzante*(MILLISECONDS_IN_A_DAY));
+            GregorianCalendar c = new GregorianCalendar();
+            c.setTime(dataUltimaAcqua);
+            c.add(Calendar.DAY_OF_MONTH, intervalloAcqua);
+            dataProssimaAcqua = new Date(c.getTimeInMillis());
+            c.setTime(dataUltimoFertilizzante);
+            c.add(Calendar.DAY_OF_MONTH, intervalloFertilizzante);
+            dataProssimoFertilizzante = new Date(c.getTimeInMillis());
             mDataUltimaAcqua.setText(outputDateFormat.format(dataUltimaAcqua));
             mDataUltimoFertilizzante.setText(outputDateFormat.format(dataUltimoFertilizzante));
             mDataProssimaAcqua.setText(outputDateFormat.format(dataProssimaAcqua));
@@ -412,11 +418,13 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
 
     private void impostaNotificaInnaffiamento() {
         Intent intent = new Intent(this, NotificationService.class).setAction(NotificationService.ACTION_NOTIFICA_ACQUA);
+        Log.v(TAG, "Sto settando una notifica acqua per: " + dataProssimaAcqua);
         impostaNotifica(intent, dataProssimaAcqua.getTime());
     }
 
     private void impostaNotificaFertilizzante() {
         Intent intent = new Intent(this, NotificationService.class).setAction(NotificationService.ACTION_NOTIFICA_FERTILIZZANTE);
+        Log.v(TAG, "Sto settando una notifica fertilizzante per: " + dataProssimoFertilizzante + ", data ultimo fertilizzante: " + dataUltimoFertilizzante);
         impostaNotifica(intent, dataProssimoFertilizzante.getTime());
     }
 
