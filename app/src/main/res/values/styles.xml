@@ -8,4 +8,13 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 
+
+    <style name="spinner_style" >
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:layout_marginRight">47dp</item>
+        <item name="android:layout_marginTop">45dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+
 </resources>

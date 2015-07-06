@@ -2,10 +2,17 @@ package com.forgetmenot.forgetmenot;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +23,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -23,7 +31,10 @@ import android.widget.Toast;
 import android.widget.ImageButton;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -35,6 +46,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.forgetmenot.forgetmenot.utils.CircleTransform;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -51,17 +63,16 @@ public class AggiungiPianta extends ActionBarActivity {
     private static final String         URL_ADD_PLANT ="http://forgetmenot.ddns.net/ForgetMeNot/AggiuntaNuovaPianta";
     private static final String         TAG = "TipiImmaginiPiante";
     private static final String         ADD_FAIL = "Impossibile aggiungere la pianta,";
-    private static final String         STRING_SELEZIONA = "Seleziona una pianta fra quelle presenti";
+    private static final String         STRING_SELEZIONA = "Seleziona un tipo di pianta";
 
     protected LocationManager           locationManager;
-    protected ImageButton               gps;
+    protected Button                    gps;
     protected EditText                  editIndirizzo;
     protected EditText                  editNomePianta;
     protected EditText                  eIndirizzo;
     protected Spinner                   spinner;
     protected ArrayAdapter<String>      adapter;
     protected String[]                  typeArray;
-    protected String[]                  imageArray;
     protected HashMap<String, String>   typeImageMap;
     protected ImageView                 imageView;
 
@@ -82,13 +93,19 @@ public class AggiungiPianta extends ActionBarActivity {
         utenteID = Integer.parseInt(pref.getString("idUtente", null));
 
         //setting gps button
-        gps = (ImageButton) findViewById(R.id.gps);
+        gps = (Button) findViewById(R.id.gps);
         gps.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 fillAddress();
             }
         });
+
+        editNomePianta = (EditText) findViewById(R.id.eNome);
+        eIndirizzo = (EditText) findViewById(R.id.eIndirizzo);
+        editNomePianta.setHorizontallyScrolling(true);
+        eIndirizzo.setHorizontallyScrolling(true);
+
         //database request for plant types
         requestTypes(URL_GET_TYPES);
     }
@@ -129,45 +146,37 @@ public class AggiungiPianta extends ActionBarActivity {
         locationManager = (LocationManager) AggiungiPianta.this.getSystemService(LOCATION_SERVICE);
         // getting GPS status
         isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        if (!isGPSEnabled) alertNoGps();
-        // if GPS Enabled get lat/long using GPS Services
+        isNetworkEnabled= locationManager.isProviderEnabled((locationManager.NETWORK_PROVIDER));
+        if (!isGPSEnabled && !isNetworkEnabled) alertNoGps();
+        // if network or GPS Enabled get lat/long
+        if (isNetworkEnabled) {
+            locationManager.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER,
+                    MINIMUM_TIME,
+                    MINIMUM_DISTANCE, new MyLocationListener());
+            if (locationManager != null) {
+                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                if (location != null) {
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
+                }
+            }
+        }
         if (isGPSEnabled) {
             if (location == null) {
                 locationManager.requestLocationUpdates(
                         LocationManager.GPS_PROVIDER,
                         MINIMUM_TIME,
                         MINIMUM_DISTANCE, new MyLocationListener());
-                Log.d("GPS", "GPS Enabled");
                 if (locationManager != null) {
                     location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     if (location != null) {
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
-                        Log.d("GPS", "prendo le coordinate dal gps");
                     }
                 }
             }
         }
-        // getting network status
-        /*isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        if (isNetworkEnabled) {
-            if (location == null) {
-                locationManager.requestLocationUpdates(
-                        LocationManager.NETWORK_PROVIDER,
-                        MINIMUM_TIME,
-                        MINIMUM_DISTANCE, new MyLocationListener());
-                        Log.d("Network", "Network Enabled");
-                if (locationManager != null) {
-                    location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                    if (location != null) {
-                        latitude = location.getLatitude();
-                        longitude = location.getLongitude();
-                    }
-                }
-            }
-        }*/
-
-
 
         //converting coordinates into address
         Geocoder geocoder = new Geocoder(AggiungiPianta.this, Locale.getDefault());
@@ -193,7 +202,7 @@ public class AggiungiPianta extends ActionBarActivity {
     //private alert No GPS
     private void alertNoGps(){
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Il GPS sembra essere disattivo, attivarlo ora?")
+        builder.setMessage("servizio per la geolocalizzazione non attivo. Attivarlo?")
                 .setCancelable(false)
                 .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
@@ -237,20 +246,18 @@ public class AggiungiPianta extends ActionBarActivity {
                     @Override
                     public void onResponse(JSONArray array) {
                         typeArray = new String[array.length()+1];
-                        imageArray = new String[array.length()+1];
+                        typeArray[0] = "";
                         typeImageMap = new HashMap<>();
                         try{
-                            //setting first array value to a Default to be displayed in the spinner
-                            typeArray[0] = STRING_SELEZIONA;
-                            imageArray[0] = null;
                             for(int i=1; i<=array.length(); i++){
                                 JSONObject pianta = (JSONObject) array.get(i-1);
                                 String tipo = pianta.getString("nome");
                                 String immagine = pianta.getString("immagine");
                                 typeArray[i] = tipo;
-                                imageArray[i] = immagine;
                                 typeImageMap.put(tipo, immagine);
                             }
+                            Arrays.sort(typeArray);
+                            typeArray[0] = STRING_SELEZIONA;
                             setSpinner();
                         } catch(JSONException e){
                             e.printStackTrace();
@@ -277,7 +284,7 @@ public class AggiungiPianta extends ActionBarActivity {
                 tipoPianta = selectedItem;
                 String associateImage = typeImageMap.get(selectedItem);
                 imageView = (ImageView) findViewById(R.id.imageView);
-                Picasso.with(AggiungiPianta.this).load(associateImage).into(imageView);
+                Picasso.with(AggiungiPianta.this).load(associateImage).transform(new CircleTransform()).into(imageView);
             }
 
             @Override
@@ -288,9 +295,7 @@ public class AggiungiPianta extends ActionBarActivity {
     }
 
     private void addPlant(){
-        editNomePianta = (EditText) findViewById(R.id.eNome);
         nomePianta = editNomePianta.getText().toString();
-        eIndirizzo = (EditText) findViewById(R.id.eIndirizzo);
         indirizzo = eIndirizzo.getText().toString();
 
         if(tipoPianta == STRING_SELEZIONA){
