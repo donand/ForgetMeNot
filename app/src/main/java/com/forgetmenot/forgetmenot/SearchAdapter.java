@@ -50,11 +50,13 @@ public class SearchAdapter extends CursorAdapter{
     public void bindView(View view, Context context, Cursor cursor) {
         text=(TextView)view.findViewById(R.id.nomePianta);
         immagine=(ImageView)view.findViewById(R.id.immaginePianta);
+        final Context c=context;
         try{
             JSONObject o=(JSONObject)items.get(cursor.getPosition());
             text.setText(o.getString("nome"));
             Picasso.with(context)
                     .load(o.getString("immagine")).transform(new CircleTransform()).into(immagine);
+
         }
         catch (JSONException e){
             e.printStackTrace();
@@ -65,25 +67,24 @@ public class SearchAdapter extends CursorAdapter{
     public View newView(final Context context, Cursor cursor, ViewGroup parent) {
 
         View view = inflater.inflate(R.layout.search_result, parent, false);
-
         text = (TextView) view.findViewById(R.id.nomePianta);
         immagine=(ImageView)view.findViewById(R.id.immaginePianta);
 
-        text.setOnClickListener(new View.OnClickListener() {
+
+        /*text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(context, DettagliGeneraliPianta.class);
+                Intent i = new Intent(context, DettagliGeneraliPianta.class);
                 i.putExtra("nome", text.getText());
                 context.startActivity(i);
             }
-        });
+        });*/
         return view;
     }
 
-
-    /*public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         if (mCursor.moveToPosition(position)) {
-            ViewHolder holder;
+            final ViewHolder holder;
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = this.inflater.inflate(R.layout.search_result,
@@ -104,7 +105,7 @@ public class SearchAdapter extends CursorAdapter{
                     @Override
                     public void onClick(View view) {
                         Intent i = new Intent(context, DettagliGeneraliPianta.class);
-                        i.putExtra("nome", text.getText());
+                        i.putExtra("nome", holder.nomePianta.getText());
                         context.startActivity(i);
                     }
                 });
@@ -120,6 +121,6 @@ public class SearchAdapter extends CursorAdapter{
         TextView nomePianta;
         ImageView immaginePianta;
 
-    }*/
+    }
 
 }
