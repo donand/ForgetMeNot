@@ -1,4 +1,4 @@
-package com.forgetmenot.forgetmenot;
+package com.forgetmenot.forgetmenot.network;
 
 import android.content.Context;
 import android.os.AsyncTask;

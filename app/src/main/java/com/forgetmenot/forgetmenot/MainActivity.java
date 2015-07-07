@@ -6,32 +6,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.MatrixCursor;
-import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 
-import android.view.Gravity;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CursorAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.forgetmenot.forgetmenot.network.GetElencoPianteUtente;
+import com.forgetmenot.forgetmenot.network.GetElencoTipiPiante;
 import com.forgetmenot.forgetmenot.network.TaskCallbackElenco;
+import com.forgetmenot.forgetmenot.network.TaskCallbackElencoTipi;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.LinkedList;
-import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity implements TaskCallbackElenco, TaskCallbackElencoTipi, View.OnClickListener {
@@ -85,14 +81,14 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
 
         // Associate searchable configuration with the SearchView
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        android.widget.SearchView searchView = (android.widget.SearchView) (menu.findItem(R.id.search)).getActionView();
+        final android.widget.SearchView searchView = (android.widget.SearchView) (menu.findItem(R.id.search)).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
 
             @Override
             public boolean onQueryTextChange(String query) {
                 //aspetto che il task completi il jsonarray
-                while(elencoPianteGenerali==null){
+                while (elencoPianteGenerali == null) {
                 }
 
                 loadHistory(query);
@@ -103,19 +99,36 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
 
             @Override
             public boolean onQueryTextSubmit(String a) {
-                return true;
+                return false;
             }
 
+
+        });
+
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus)
+                    return;
+                String query = searchView.getQuery().toString();
+                searchView.setQuery(query, false);
+            }
         });
 
         return true;
     }
+
+    /*@Override
+    public boolean onSearchRequested(){
+        System.out.println("CERCA");
+        loadHistory("");
+        return true;
+    }*/
     // History
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void loadHistory(String query) {
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-
             // Cursor
             String[] columns = new String[] { "_id", "text" };
             Object[] temp = new Object[] { 0, "default" };
@@ -128,8 +141,8 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
                     JSONObject o=(JSONObject)elencoPianteGenerali.get(i);
                     temp[1] = o.toString();
 
-                    if (o.getString("nome").toLowerCase().startsWith(query.toLowerCase())){
-                        System.out.println(o.toString());
+                    if (o.getString("nome").toLowerCase().startsWith(query.toLowerCase()) || query.equals("")){
+                        //System.out.println(o.toString());
                         items.put(o);
                         cursor.addRow(temp);
                     }
@@ -139,14 +152,12 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
                     e.printStackTrace();
                 }
             }
-
             // SearchView
             SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
             final android.widget.SearchView search = (android.widget.SearchView) menu.findItem(R.id.search).getActionView();
-
+            //search.setSuggestionsAdapter(new SearchAdapter(this, cursor, items));
             search.setSuggestionsAdapter(new SearchAdapter(this, cursor, items));
-
         }
 
     }
@@ -169,7 +180,6 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
         }
 
         if(id==R.id.search){
-
             //onSearchRequested();
             return true;
         }
@@ -185,7 +195,6 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
     public void done(String r, boolean inutile){
         try{
             elencoPianteGenerali=new JSONArray(r);
-            System.out.println("FATTO");
         }
         catch(JSONException e){
             e.printStackTrace();
