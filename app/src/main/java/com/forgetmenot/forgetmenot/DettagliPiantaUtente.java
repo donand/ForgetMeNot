@@ -83,6 +83,7 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
     private Date dataUltimaAcqua, dataUltimoFertilizzante, dataProssimaAcqua, dataProssimoFertilizzante;
     private DateFormat inputDateFormat = new SimpleDateFormat("EEE MMM d k:m:s zzz yyyy", Locale.ENGLISH);
     private DateFormat outputDateFormat = new SimpleDateFormat("EEE d MMMM yyyy", Locale.getDefault());
+    private boolean fromNotificationService;
 
 
     @Override
@@ -134,10 +135,12 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         ((Button) findViewById(R.id.aggiorna_data_concimazione)).setOnClickListener(this);
         ((Button) findViewById(R.id.verifica_luce)).setOnClickListener(this);
         ((Button) findViewById(R.id.info_pianta)).setOnClickListener(this);
+
         idPossesso = intent.getIntExtra(ID, -1);
         mNomeUtente.setText(intent.getStringExtra(NOME_ASSEGNATO));
         mNomeGenerico.setText(intent.getStringExtra(NOME_GENERALE));
         Picasso.with(this).load(intent.getStringExtra(IMMAGINE)).transform(new CircleTransform()).into(mImmagine);
+        fromNotificationService = intent.getBooleanExtra("fromNotificationService", false);
 
         setSwitchListeners();
         setScrollableDescriptions();
@@ -202,7 +205,7 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
                     e.printStackTrace();
                 }
                 setNotificheToServer(URL_SET_NOTIFICHE_ACQUA, obj);
-                if (b)
+                if (b && !fromNotificationService)
                     impostaNotificaInnaffiamento();
                 else
                     cancellaNotificaInnaffiamento();
@@ -222,7 +225,7 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
                     e.printStackTrace();
                 }
                 setNotificheToServer(URL_SET_NOTIFICHE_FERTILIZZANTE, obj);
-                if (b)
+                if (b && !fromNotificationService)
                     impostaNotificaFertilizzante();
                 else
                     cancellaNotificaFertilizzante();

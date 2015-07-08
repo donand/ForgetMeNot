@@ -58,6 +58,7 @@ public class NotificationService extends IntentService {
     private void handleActionNotificaAcqua(Intent input) {
         Intent intent = new Intent(this, DettagliPiantaUtente.class).setAction(ACTION_NOTIFICA_ACQUA);
         intent.putExtras(input);
+        intent.putExtra("fromNotificationService", true);
         Log.v(TAG, "nomi: " + intent.getStringExtra(DettagliPiantaUtente.NOME_ASSEGNATO) + ", " + intent.getStringExtra(DettagliPiantaUtente.NOME_GENERALE) + ", " +
                 "id: " + intent.getIntExtra(DettagliPiantaUtente.ID, -1));
         long[] pattern = {0, 300, 0};
@@ -92,6 +93,7 @@ public class NotificationService extends IntentService {
     private void handleActionNotificaFertilizzante(Intent input) {
         Intent intent = new Intent(this, DettagliPiantaUtente.class).setAction(ACTION_NOTIFICA_FERTILIZZANTE);
         intent.putExtras(input);
+        intent.putExtra("fromNotificationService", true);
         long[] pattern = {0, 300, 0};
         PendingIntent pi = PendingIntent.getActivity(this, idPossesso, intent, 0);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
