@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.MatrixCursor;
 import android.os.Build;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -15,6 +17,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -30,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+
 public class MainActivity extends ActionBarActivity implements TaskCallbackElenco, TaskCallbackElencoTipi, View.OnClickListener {
     String prova ;
 
@@ -40,6 +44,7 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
     ImageButton fabUpload;
     SharedPreferences pref;
 
+    SwipeRefreshLayout swipeView;
     
     private Menu menu;
 
@@ -49,21 +54,44 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
         setContentView(R.layout.activity_main);
 
         pref=getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        String idUtente=pref.getString("idUtente", null);
+        final String ricerca = "http://forgetmenot.ddns.net/ForgetMeNot/ElencoPianteUtente?utente="+idUtente;
+
         //floating button
         fabUpload = (ImageButton)findViewById(R.id.fab);
         fabUpload.setVisibility(View.VISIBLE);
         fabUpload.bringToFront();
         fabUpload.setOnClickListener(this);
 
-        String idUtente=pref.getString("idUtente", null);
+        swipeView = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+        //swipeView.setEnabled(false);
+        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeView.setRefreshing(true);
 
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeView.setRefreshing(false);
+                        System.out.println("REFRESH");
+                        /* Devo chiamare l'API */
+                        chiamaApi(ricerca);
+                    }
+                }, 2000);
+
+            }
+        });
         //chiamo il task che prende l'elenco di piante dell'utente dal server. ora provo con un utente a caso
         try {
-            String ricerca = "http://forgetmenot.ddns.net/ForgetMeNot/ElencoPianteUtente?utente="+idUtente;
             GetElencoPianteUtente task = new GetElencoPianteUtente(ricerca, this, this.getApplicationContext());
             task.execute();
         } catch (Exception e) {
         }
+    }
+    private void chiamaApi(String ricerca){
+        GetElencoPianteUtente task = new GetElencoPianteUtente(ricerca, this, this.getApplicationContext());
+        task.execute();
     }
 
     @Override
@@ -214,10 +242,23 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
             impostaMessaggioIniziale(elencoPiante);
 
             //listview di activity_main
-            ListView listaPiante=(ListView)findViewById(R.id.piante);
+            final ListView listaPiante=(ListView)findViewById(R.id.piante);
             CustomListPiante adapter = new CustomListPiante(MainActivity.this, elencoPiante);
             listaPiante.setAdapter(adapter);
+            listaPiante.setOnScrollListener(new AbsListView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(AbsListView view, int scrollState) {
 
+                }
+
+                @Override
+                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                    int topRowVerticalPosition =
+                            (listaPiante == null || listaPiante.getChildCount() == 0) ?
+                                    0 : listaPiante.getChildAt(0).getTop();
+                    swipeView.setEnabled(firstVisibleItem == 0 && topRowVerticalPosition >= 0);
+                }
+            });
             /*String nomeR="Nome";
             String immagineR="http://www.drogbaster.it/immagini-3d/album/slides/immagini-tridimensionali%20(5).jpg";*/
         }
