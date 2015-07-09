@@ -233,9 +233,10 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
     public void done(String result){
         try{
             TextView messaggioIniziale=(TextView)findViewById(R.id.messaggio);
-            if(result==null || result.equals("")){
-                messaggioIniziale.setVisibility(View.VISIBLE);
-                messaggioIniziale.setText("Non hai nessuna pianta.");
+            System.out.println("RESULT "+result);
+            if(result==null || result.equals("[]")){
+                messaggioIniziale.setText("Non hai nessuna pianta. Aggiungi le tue piante cliccando sul bottone in basso!");
+                return;
             }
             elencoPiante=new JSONArray(result);
 
