@@ -81,7 +81,8 @@ public class AggiungiPianta extends ActionBarActivity {
     protected String                    tipoPianta;
     protected String                    nomePianta;
     protected String                    indirizzo;
-    protected int                       utenteID; // da prendere poi con il merge
+    protected int                       utenteID;
+    protected boolean                   fromDettagliGeneraliPianta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +106,8 @@ public class AggiungiPianta extends ActionBarActivity {
         eIndirizzo = (EditText) findViewById(R.id.eIndirizzo);
         editNomePianta.setHorizontallyScrolling(true);
         eIndirizzo.setHorizontallyScrolling(true);
+        tipoPianta = getIntent().getStringExtra("nomePianta");
+        fromDettagliGeneraliPianta = tipoPianta != null;
 
         //database request for plant types
         requestTypes(URL_GET_TYPES);
@@ -256,7 +259,6 @@ public class AggiungiPianta extends ActionBarActivity {
                                 typeArray[i] = tipo;
                                 typeImageMap.put(tipo, immagine);
                             }
-                            Arrays.sort(typeArray);
                             typeArray[0] = STRING_SELEZIONA;
                             setSpinner();
                         } catch(JSONException e){
@@ -271,7 +273,6 @@ public class AggiungiPianta extends ActionBarActivity {
         });
         queue.add(jsonArrayRequest);
     }
-
     private void setSpinner(){
         spinner = (Spinner) findViewById(R.id.typeSpin);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, typeArray);
@@ -282,9 +283,13 @@ public class AggiungiPianta extends ActionBarActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = adapter.getItem(position).toString();
                 tipoPianta = selectedItem;
-                String associateImage = typeImageMap.get(selectedItem);
+                Log.v(TAG, "tipoPianta: " + tipoPianta);
+                String associateImage = typeImageMap.get(tipoPianta);
                 imageView = (ImageView) findViewById(R.id.imageView);
-                Picasso.with(AggiungiPianta.this).load(associateImage).transform(new CircleTransform()).into(imageView);
+                if (position != 0)
+                    Picasso.with(AggiungiPianta.this).load(associateImage).transform(new CircleTransform()).into(imageView);
+                else
+                    imageView.setImageResource(R.drawable.logo2);
             }
 
             @Override
@@ -292,6 +297,8 @@ public class AggiungiPianta extends ActionBarActivity {
                 //not used
             }
         });
+        Log.v(TAG, "asada");
+        spinner.setSelection(adapter.getPosition(tipoPianta));
     }
 
     private void addPlant(){

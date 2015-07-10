@@ -5,7 +5,7 @@
 
     <item android:id="@+id/checked"
         android:title="Checked"
-        android:icon="@drawable/checked"
+        android:icon="@drawable/checked_36dp"
         app:showAsAction="ifRoom" />
 
 

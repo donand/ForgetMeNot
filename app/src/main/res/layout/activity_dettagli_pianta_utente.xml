@@ -55,11 +55,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/nome_utente"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="17dp"
+            android:layout_marginTop="15dp"
             android:layout_toRightOf="@+id/immagine"
             android:text="Tulipano"
             android:textSize="15sp"
-            android:textStyle="italic" />
+            android:textStyle="bold" />
 
         <!--
         <Button
@@ -401,9 +401,9 @@
                 <ImageView
                     android:id="@+id/icona_fertilizzante"
                     android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_height="47dp"
                     android:layout_below="@+id/label_fertilizzante"
-                    android:src="@drawable/sun" />
+                    android:src="@drawable/concime_marrone" />
 
                 <ProgressBar
                     android:id="@+id/progress_bar_fertilizzante"
