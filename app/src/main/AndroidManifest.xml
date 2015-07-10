@@ -99,6 +99,7 @@
 
         <activity
             android:name=".AggiungiPianta"
+            android:windowSoftInputMode="stateHidden"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_aggiungi_pianta"
             android:parentActivityName=".MainActivity" >
