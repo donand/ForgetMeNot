@@ -196,8 +196,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="20dp"
-                    android:layout_marginLeft="5dp"
-                    android:src="@drawable/happy_white" />
+                    android:layout_marginLeft="5dp" />
 
                 <TextView
                     android:id="@+id/messaggio_stato_pianta"

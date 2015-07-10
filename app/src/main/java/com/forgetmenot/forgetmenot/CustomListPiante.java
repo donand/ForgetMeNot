@@ -109,12 +109,12 @@ public class CustomListPiante extends BaseAdapter {
 
             //se si verifica vuol dire che la pianta sta male.
             if(holder.livelloFertilizzante==0 || holder.livelloAcqua==0){
-                holder.stato.setImageResource(R.drawable.bad);
+                holder.stato.setImageResource(R.drawable.sad_red_48dp);
             }
             else if(holder.livelloFertilizzante<=2 || holder.livelloAcqua<=2){
-                holder.stato.setImageResource(R.drawable.neutral);
+                holder.stato.setImageResource(R.drawable.neutral_yellow_48dp);
             }
-            else holder.stato.setImageResource(R.drawable.happy);
+            else holder.stato.setImageResource(R.drawable.happy_green_48dp);
 
             Picasso.with(context)
                     .load(o.getString("immagine")).transform(new CircleTransform()).into(holder.immaginePianta);

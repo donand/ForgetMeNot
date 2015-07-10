@@ -241,16 +241,16 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         if (livelloAcqua == 0 || livelloFertilizzante == 0) {
             mCardViewMessaggioStato.setCardBackgroundColor(getResources().getColor(R.color.material_red));
             mMessaggioStatoPianta.setText("Attenzione! La pianta ha bisogno di cure!");
-            mIconaStatoPianta.setImageResource(R.drawable.bad_white);
+            mIconaStatoPianta.setImageResource(R.drawable.sad_white_48dp);
         } else if (livelloAcqua <= LIVELLO_WARNING || livelloFertilizzante <= LIVELLO_WARNING) {
             mCardViewMessaggioStato.setCardBackgroundColor(getResources().getColor(R.color.material_yellow));
             mMessaggioStatoPianta.setText("Attenzione! La pianta avrà presto bisogno di cure!");
-            mIconaStatoPianta.setImageResource(R.drawable.neutral_white);
+            mIconaStatoPianta.setImageResource(R.drawable.neutral_white_48dp);
         }
         else {
             mCardViewMessaggioStato.setCardBackgroundColor(getResources().getColor(R.color.material_green));
             mMessaggioStatoPianta.setText("La pianta sta bene!");
-            mIconaStatoPianta.setImageResource(R.drawable.happy_white);
+            mIconaStatoPianta.setImageResource(R.drawable.happy_white_48dp);
         }
     }
 
