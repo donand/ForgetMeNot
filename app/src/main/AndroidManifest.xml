@@ -63,6 +63,7 @@
         <activity
             android:name=".VerificaLuce"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".MainActivity"
             android:label="@string/title_activity_verifica_luce" >
         </activity>
         <activity
@@ -107,11 +108,12 @@
         </activity>
         <activity
             android:name=".DettagliGeneraliPianta"
-            android:label="@string/title_activity_dettagli_generali_pianta" >
+            android:label="Dettagli Generali Pianta" >
         </activity>
         <activity
             android:name=".VisualSearch"
-            android:label="@string/title_activity_visual_search" >
+            android:parentActivityName=".MainActivity"
+            android:label="Scopri Pianta" >
         </activity>
     </application>
 

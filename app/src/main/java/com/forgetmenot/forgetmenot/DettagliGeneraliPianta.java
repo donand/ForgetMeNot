@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.forgetmenot.forgetmenot.network.GetDettagliGeneraliPianta;
 import com.forgetmenot.forgetmenot.network.TaskCallbackDettagliGeneraliPianta;
@@ -85,20 +86,20 @@ public class DettagliGeneraliPianta extends AppCompatActivity implements TaskCal
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        /*if (id == R.id.aggiungi) {
+        if (id == R.id.aggiungi) {
             if (puoiAggiungere) {
                 Intent i = new Intent(DettagliGeneraliPianta.this, AggiungiPianta.class);
                 i.putExtra("nomePianta", tipoPianta);
                 this.startActivity(i);
             }
 
-            else Toast.makeText(getApplicationContext(), "Attenzione! impossibile completare l'operazione",Toast.LENGTH_LONG).show();
+            else Toast.makeText(getApplicationContext(), "Attenzione! impossibile completare l'operazione", Toast.LENGTH_LONG).show();
 
 
 
         return super.onOptionsItemSelected(item);
         }
-        */
+
         return true;
     }
 

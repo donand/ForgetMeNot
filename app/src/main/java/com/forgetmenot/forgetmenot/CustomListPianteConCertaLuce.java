@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.forgetmenot.forgetmenot.utils.CircleTransform;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -77,7 +78,7 @@ public class CustomListPianteConCertaLuce extends BaseAdapter {
 
 
             Picasso.with(context)
-                    .load(oggetto.getString("immagine")).into(holder.fotoPianta);
+                    .load(oggetto.getString("immagine")).transform(new CircleTransform()).into(holder.fotoPianta);
 
             holder.info.setOnClickListener(new View.OnClickListener() {
                 @Override

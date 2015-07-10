@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.provider.Settings;
@@ -13,6 +14,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -39,8 +41,9 @@ public class VerificaLuce extends AppCompatActivity implements SensorEventListen
     private TextView messaggio;
     private TextView nuovaRicerca;
     private TextView trova;
-
+    private View separatore;
     private ListView listaPiante;
+    private CardView carta;
 
     private ProgressBar barraLuce;
 
@@ -74,14 +77,15 @@ public class VerificaLuce extends AppCompatActivity implements SensorEventListen
         messaggio = (TextView) findViewById(R.id.messaggio);
         nuovaRicerca = (TextView) findViewById(R.id.nuovaRicerca);
         listaPiante = (ListView) findViewById(R.id.piante);
-        listaPiante.setVisibility(View.INVISIBLE);
+        listaPiante.setVisibility(View.GONE);
         valoreLuce = (ImageView) findViewById(R.id.checkluce);
         info = (ImageButton) findViewById(R.id.info);
-
+        separatore = (View) findViewById(R.id.separatore_piante);
         barraLuce = (ProgressBar)findViewById(R.id.progress_bar_luce);
         // Get an instance of the sensor service
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         luce = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        carta = (CardView) findViewById(R.id.cardview_due);
         PackageManager PM = this.getPackageManager();
 
         boolean gyro = PM.hasSystemFeature(PackageManager.FEATURE_SENSOR_GYROSCOPE);
@@ -95,7 +99,9 @@ public class VerificaLuce extends AppCompatActivity implements SensorEventListen
                 if (sensoreLuce) {
                     comincia.setVisibility(View.GONE);
                     testo.setText("Il livello di luminosità in questo punto della casa è:");
-                    testo.setTextColor(Color.BLACK);
+                    testo.setTypeface(null, Typeface.BOLD);
+                    valoreLuce.setImageResource(R.drawable.uno);
+                    messaggio.setVisibility(View.GONE);
                     //testo.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_Large);
                     trova.setVisibility(View.VISIBLE);
                     cambia = true;
@@ -113,7 +119,10 @@ public class VerificaLuce extends AppCompatActivity implements SensorEventListen
                 cercaPiante();
                 nuovaRicerca.setVisibility(View.VISIBLE);
                 barraLuce.setVisibility(View.VISIBLE);
+                separatore.setVisibility(View.VISIBLE);
+                carta.setVisibility(View.VISIBLE);
                 interruttore = false;
+
 
             }
 
@@ -122,13 +131,14 @@ public class VerificaLuce extends AppCompatActivity implements SensorEventListen
         nuovaRicerca.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nuovaRicerca.setVisibility(View.INVISIBLE);
+                nuovaRicerca.setVisibility(View.GONE);
                 //infoLivelloLuce.setVisibility(View.VISIBLE);
                 cambia = true;
                 trova.setVisibility(View.VISIBLE);
-                messaggio.setVisibility(View.INVISIBLE);
-                listaPiante.setVisibility(View.INVISIBLE);
-                barraLuce.setVisibility(View.INVISIBLE);
+                separatore.setVisibility(View.GONE);
+                carta.setVisibility(View.GONE);
+                listaPiante.setVisibility(View.GONE);
+                barraLuce.setVisibility(View.GONE);
                 interruttore = true;
 
 
@@ -151,28 +161,18 @@ public class VerificaLuce extends AppCompatActivity implements SensorEventListen
                 if (livelloLuce < 1000) {
                     livelloLuceFinale = 1;
                     valoreLuce.setImageResource(R.drawable.uno);
-                    barraLuce.setProgress(livelloLuceFinale * 20);
-                    messaggio.setText("Ecco le piante che hanno bisogno di luce " + livelloLuceFinale + "/5");
                 } else if (livelloLuce < 2500) {
                     livelloLuceFinale = 2;
                     valoreLuce.setImageResource(R.drawable.due);
-                    barraLuce.setProgress(livelloLuceFinale * 20);
-                    messaggio.setText("Ecco le piante che hanno bisogno di luce " + livelloLuceFinale + "/5");
                 } else if (livelloLuce < 4000) {
                     livelloLuceFinale = 3;
                     valoreLuce.setImageResource(R.drawable.tre);
-                    barraLuce.setProgress(livelloLuceFinale * 20);
-                    messaggio.setText("Ecco le piante che hanno bisogno di luce " + livelloLuceFinale + "/5");
                 } else if (livelloLuce < 6000) {
                     livelloLuceFinale = 4;
                     valoreLuce.setImageResource(R.drawable.quattro);
-                    barraLuce.setProgress(livelloLuceFinale * 20);
-                    messaggio.setText("Ecco le piante che hanno bisogno di luce " + livelloLuceFinale + "/5");
                 } else {
                     livelloLuceFinale = 5;
                     valoreLuce.setImageResource(R.drawable.cinque);
-                    barraLuce.setProgress(livelloLuceFinale * 20);
-                    messaggio.setText("Ecco le piante che hanno bisogno di luce " + livelloLuceFinale + "/5");
                 }
 
             }
@@ -210,6 +210,10 @@ public class VerificaLuce extends AppCompatActivity implements SensorEventListen
             if(elencoPiante.length()==0){
                 messaggio.setText("Non è stata trovata nessuna pianta con questa luminosità!");
             }
+            barraLuce.setProgress(livelloLuceFinale * 20);
+
+            messaggio.setText("Ecco le piante che hanno bisogno di luce " + livelloLuceFinale + "/5");
+
 
             //listview di activity_main
             listaPiante.setVisibility(View.VISIBLE);

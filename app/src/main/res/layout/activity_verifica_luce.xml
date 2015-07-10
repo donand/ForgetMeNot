@@ -1,154 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp"
-    android:paddingTop="8dp"
-    android:background="@color/sfondoInfopianta"
-    tools:context="com.forgetmenot.forgetmenot.DettagliGeneraliPianta">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/sfondo">>
 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/cardview_uno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingRight="7dp"
-            android:paddingLeft="7dp"
-            android:paddingTop="7dp">
+            android:layout_marginTop="5dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+            card_view:cardCornerRadius="2dp"
+            card_view:cardElevation="2dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Suggerimento: per poter sfruttare al meglio questa funzionalità rivolgere lo schermo del telefono nella direzione in cui proviene la luce"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_marginTop="5dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:id="@+id/attenzione"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                />
-
-            <!--<TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Il livello di luminosità in questo punto della casa è:"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:visibility="invisible"
-                android:layout_marginTop="5dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:id="@+id/livello_luce"
-                android:l
-                android:layout_centerHorizontal="true"
-                /> -->
-
-            <ImageView
-                android:id="@+id/checkluce"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/checkluce"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/attenzione"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:elevation="3dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="COMINCIA"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_marginTop="15dp"
-                android:textStyle="bold"
-                android:paddingLeft="10dp"
-                android:id="@+id/text_comincia"
-                android:layout_gravity="center"
-                android:layout_centerHorizontal="true"
-                android:textColor="#4CAF50"
-                android:clickable="true"
-                android:layout_below="@+id/checkluce"/>
-
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TROVA PIANTE"
-                android:visibility="invisible"
-                android:textStyle="bold"
-
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_marginTop="15dp"
-                android:paddingLeft="10dp"
-                android:id="@+id/trovaPiante"
-                android:layout_centerHorizontal="true"
-                android:textColor="#4CAF50"
-                android:clickable="true"
-                android:layout_below="@+id/checkluce"
-                android:layout_gravity="center_horizontal" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="NUOVA RICERCA"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_marginTop="0dp"
-                android:gravity="center_horizontal"
-                android:id="@+id/nuovaRicerca"
-                android:layout_centerHorizontal="true"
-                android:visibility="invisible"
-                android:textColor="#4CAF50"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:layout_below="@+id/checkluce"
-                android:layout_gravity="center_horizontal" />
-
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:visibility="invisible"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_marginTop="15dp"
-                android:paddingLeft="5dp"
-                android:id="@+id/messaggio"
-                android:layout_centerVertical="true"
-                android:gravity="center_horizontal"
-                android:textColor="#4CAF50"
-                android:clickable="true"
-                android:layout_below="@+id/checkluce"
-                android:textStyle="bold"
-                />
-            <ProgressBar
-                android:id="@+id/progress_bar_luce"
-                style="@android:style/Widget.ProgressBar.Horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="25dp"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/messaggio"
-                android:layout_marginTop="12dp"
-                android:visibility="invisible"
-                android:progressTint="@color/material_yellow" />
-
-            <ListView
-                android:id="@+id/piante"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_below="@+id/progress_bar_luce" />
+                android:layout_height="wrap_content"
+                android:padding="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Suggerimento: per poter sfruttare al meglio questa funzionalità rivolgere lo schermo del telefono nella direzione in cui proviene la luce"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:id="@+id/attenzione"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#4CAF50"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    />
+
+                <ImageView
+                    android:id="@+id/checkluce"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:src="@drawable/checkluce"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/attenzione"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:elevation="3dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="COMINCIA"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:layout_marginTop="15dp"
+                    android:textStyle="bold"
+                    android:paddingLeft="10dp"
+                    android:id="@+id/text_comincia"
+                    android:layout_gravity="center"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="#4CAF50"
+                    android:clickable="true"
+                    android:layout_below="@+id/checkluce"/>
 
 
-        </LinearLayout>
-    </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TROVA PIANTE"
+                    android:visibility="gone"
+                    android:textStyle="bold"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:layout_marginTop="15dp"
+                    android:paddingLeft="10dp"
+                    android:id="@+id/trovaPiante"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="#4CAF50"
+                    android:clickable="true"
+                    android:layout_below="@+id/checkluce"
+                    android:layout_gravity="center_horizontal" />
 
-</ScrollView>
+
+
+                <ProgressBar
+                    android:id="@+id/progress_bar_luce"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="200dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="12dp"
+                    android:visibility="gone"
+                    android:progressTint="@color/material_yellow"
+                    android:layout_below="@+id/trovaPiante"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_alignParentTop="false"
+                    android:layout_alignParentRight="false"
+                    android:layout_alignParentBottom="false" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NUOVA RICERCA"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:layout_marginTop="0dp"
+                    android:gravity="center_horizontal"
+                    android:id="@+id/nuovaRicerca"
+                    android:layout_centerHorizontal="true"
+                    android:visibility="gone"
+                    android:textColor="#4CAF50"
+                    android:textStyle="bold"
+                    android:clickable="true"
+                    android:layout_below="@+id/progress_bar_luce"
+                    android:layout_gravity="center_horizontal"></TextView>
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/cardview_due"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardview_uno"
+            android:layout_marginTop="10dp"
+            card_view:cardCornerRadius="2dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+            card_view:cardElevation="2dp"
+            android:visibility="gone">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/messaggio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center_horizontal"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold"
+                    android:textColor="#4CAF50"/>
+
+                <View
+                    android:id="@+id/separatore_piante"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/messaggio"
+                    android:layout_marginBottom="5dp"
+                    android:visibility="gone"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/material_grey" />
+
+                <ListView
+                    android:id="@+id/piante"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_below="@+id/separatore_piante" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</RelativeLayout>
+

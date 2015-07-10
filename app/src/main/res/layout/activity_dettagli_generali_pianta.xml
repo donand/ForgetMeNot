@@ -2,11 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
     android:paddingTop="8dp"
     android:paddingBottom="8dp"
-    android:background="@color/sfondoInfopianta"
+    android:background="@drawable/sfondo"
     tools:context="com.forgetmenot.forgetmenot.DettagliGeneraliPianta">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -31,7 +32,8 @@
             <ImageView
                 android:id="@+id/immaginePianta"
                 android:layout_width="100dp"
-                android:layout_height="100dp"/>
+                android:layout_height="100dp"
+                />
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
@@ -84,7 +86,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Questa pianta e molto bella"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/info"
                 android:id="@+id/infoGeneraliPianta"
@@ -125,7 +126,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CIAO "
                 android:id="@+id/infoAcqua"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/iconaAcqua"
@@ -165,7 +165,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CIAO "
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/iconaConcimazione"
                 android:id="@+id/infoConcimazione"
@@ -205,7 +204,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CIAO "
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/iconaFioritura"
                 android:id="@+id/infoFioritura"
@@ -245,7 +243,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CIAO "
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/iconaPotatura"
                 android:id="@+id/infoPotatura"
@@ -284,7 +281,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CIAO "
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/iconaTerreno"
                 android:id="@+id/infoTerreno"
@@ -329,7 +325,6 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/infoLuceTitolo"
                 android:layout_marginTop="12dp"
-                android:progress="50"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/iconaSole"
                 android:progressTint="#F28D01" />
@@ -337,7 +332,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3/5"
                 android:textColor="@color/colorPrimary"
                 android:id="@+id/livelloLuce"
                 android:layout_marginLeft="5dp"
@@ -349,8 +343,6 @@
 
 
         </RelativeLayout>
-
-
 
     </RelativeLayout>
 
