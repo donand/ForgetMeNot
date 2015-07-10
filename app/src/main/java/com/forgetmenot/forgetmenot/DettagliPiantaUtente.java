@@ -281,11 +281,9 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         switch (view.getId()) {
             case R.id.aggiorna_data_acqua:
                 aggiornaData(URL_AGGIORNA_DATA_ACQUA);
-                recreateActivity();
                 break;
             case R.id.aggiorna_data_concimazione:
                 aggiornaData(URL_AGGIORNA_DATA_CONCIMAZIONE);
-                recreateActivity();
                 break;
             case R.id.verifica_luce:
                 Intent intent = new Intent(this, VerificaLuce.class);
@@ -370,6 +368,7 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
                             mLivelloAcqua.setProgress(100);
                         else
                             mLivelloFertilizzante.setProgress(100);
+                        recreateActivity();
                     }
                 }, new Response.ErrorListener() {
             @Override
