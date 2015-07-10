@@ -108,7 +108,7 @@
         </activity>
         <activity
             android:name=".DettagliGeneraliPianta"
-            android:label="@string/title_activity_dettagli_generali_pianta" >
+            android:label="@string/title_activity_dettagli_generali_pianta"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
