@@ -235,8 +235,8 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
     }
 
     private void setMessaggioStato() {
-        int livelloAcqua = mLivelloAcqua.getProgress();
-        int livelloFertilizzante = mLivelloFertilizzante.getProgress();
+        int livelloAcqua = mLivelloAcqua.getProgress()/10;
+        int livelloFertilizzante = mLivelloFertilizzante.getProgress()/10;
 
         if (livelloAcqua == 0 || livelloFertilizzante == 0) {
             mCardViewMessaggioStato.setCardBackgroundColor(getResources().getColor(R.color.material_red));
@@ -281,13 +281,11 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
         switch (view.getId()) {
             case R.id.aggiorna_data_acqua:
                 aggiornaData(URL_AGGIORNA_DATA_ACQUA);
-                if(notificheAcqua)
-                    impostaNotificaInnaffiamento();
+                recreateActivity();
                 break;
             case R.id.aggiorna_data_concimazione:
                 aggiornaData(URL_AGGIORNA_DATA_CONCIMAZIONE);
-                if (notificheFertilizzante)
-                    impostaNotificaFertilizzante();
+                recreateActivity();
                 break;
             case R.id.verifica_luce:
                 Intent intent = new Intent(this, VerificaLuce.class);
@@ -476,5 +474,11 @@ public class DettagliPiantaUtente extends ActionBarActivity implements View.OnCl
                 }
         });
         queue.add(jsonRequest);
+    }
+
+
+    public void recreateActivity() {
+        finish();
+        startActivity(getIntent());
     }
 }
