@@ -14,4 +14,5 @@
     <string name="scegliIndirizzo">Usa la localizzazione GPS</string>
     <string name="title_activity_dettagli_generali_pianta">Dettagli generali</string>
     <string name="title_activity_visual_search">VisualSearch</string>
+    <string name="testoGPS">La geolocalizzazione è necessaria per la registrazione della pianta. Premi il bottone e usa l\'apposita funzione. Se l\'indirizzo non dovesse coincidere è possibile comunque modificarlo manuamente.</string>
 </resources>
