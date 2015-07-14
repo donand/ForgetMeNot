@@ -44,6 +44,7 @@ public class DettagliGeneraliPianta extends AppCompatActivity implements TaskCal
     int livelloLuce;
     String tipoPianta;
     String url;
+    String nomePiantaUrl;
 
     boolean puoiAggiungere = false;
 
@@ -53,22 +54,27 @@ public class DettagliGeneraliPianta extends AppCompatActivity implements TaskCal
         setContentView(R.layout.activity_dettagli_generali_pianta);
 
         nomePianta = getIntent().getStringExtra("nome");
-        url = URL_DETTAGLI_GENERALI_PIANTA+nomePianta;
 
-        immaginePianta = (ImageView)findViewById(R.id.immaginePianta);
-        progressBarLuce = (ProgressBar)findViewById(R.id.progress_bar_luce);
+        nomePiantaUrl = nomePianta.replaceAll(" ", "%20");
+        nomePiantaUrl=nomePianta.replaceAll("ù","%C3%B9");
+        url = URL_DETTAGLI_GENERALI_PIANTA + nomePiantaUrl;
+        System.out.println("°°°°°°°°°°°°°°"+url);
 
-        pianta = (TextView)findViewById(R.id.nomePianta);
-        infoGenerali = (TextView)findViewById(R.id.infoGeneraliPianta);
-        infoAcqua = (TextView)findViewById(R.id.infoAcqua);
-        infoConcimazione = (TextView)findViewById(R.id.infoConcimazione);
-        fioritura = (TextView)findViewById(R.id.infoFioritura);
-        potatura = (TextView)findViewById(R.id.infoPotatura);
-        terreno = (TextView)findViewById(R.id.infoTerreno);
-        luce = (TextView)findViewById(R.id.livelloLuce);
+        immaginePianta = (ImageView) findViewById(R.id.immaginePianta);
+        progressBarLuce = (ProgressBar) findViewById(R.id.progress_bar_luce);
+
+        pianta = (TextView) findViewById(R.id.nomePianta);
+        infoGenerali = (TextView) findViewById(R.id.infoGeneraliPianta);
+        infoAcqua = (TextView) findViewById(R.id.infoAcqua);
+        infoConcimazione = (TextView) findViewById(R.id.infoConcimazione);
+        fioritura = (TextView) findViewById(R.id.infoFioritura);
+        potatura = (TextView) findViewById(R.id.infoPotatura);
+        terreno = (TextView) findViewById(R.id.infoTerreno);
+        luce = (TextView) findViewById(R.id.livelloLuce);
 
         System.out.println(" siamo in 1");
-        if(checkNetwork()) new GetDettagliGeneraliPianta(url, this, getApplicationContext()).execute();
+        if (checkNetwork())
+            new GetDettagliGeneraliPianta(url, this, getApplicationContext()).execute();
     }
 
     @Override
@@ -91,13 +97,11 @@ public class DettagliGeneraliPianta extends AppCompatActivity implements TaskCal
                 Intent i = new Intent(DettagliGeneraliPianta.this, AggiungiPianta.class);
                 i.putExtra("nomePianta", tipoPianta);
                 this.startActivity(i);
-            }
-
-            else Toast.makeText(getApplicationContext(), "Attenzione! impossibile completare l'operazione", Toast.LENGTH_LONG).show();
-
+            } else
+                Toast.makeText(getApplicationContext(), "Attenzione! impossibile completare l'operazione", Toast.LENGTH_LONG).show();
 
 
-        return super.onOptionsItemSelected(item);
+            return super.onOptionsItemSelected(item);
         }
 
         return true;
@@ -108,9 +112,9 @@ public class DettagliGeneraliPianta extends AppCompatActivity implements TaskCal
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         boolean isOnline = (netInfo != null && netInfo.isConnectedOrConnecting());
-        if(isOnline) {
+        if (isOnline) {
             return true;
-        }else{
+        } else {
             new AlertDialog.Builder(this)
                     .setTitle("Attenzione!")
                     .setMessage("Sembra che tu non sia collegato ad internet! ")
@@ -118,15 +122,15 @@ public class DettagliGeneraliPianta extends AppCompatActivity implements TaskCal
                         public void onClick(DialogInterface dialog, int which) {
                             // continue with delete
                             Intent callGPSSettingIntent = new Intent(Settings.ACTION_SETTINGS);
-                            startActivityForResult(callGPSSettingIntent,0);
+                            startActivityForResult(callGPSSettingIntent, 0);
                         }
                     }).show();
             return false;
         }
     }
 
-    public void done(String result){
-        try{
+    public void done(String result) {
+        try {
             System.out.println(" siamo in 2");
 
             JSONpianta = new JSONObject(result);
@@ -144,15 +148,16 @@ public class DettagliGeneraliPianta extends AppCompatActivity implements TaskCal
             fioritura.setText(JSONpianta.getString("fioritura"));
             potatura.setText(JSONpianta.getString("potatura"));
             terreno.setText(JSONpianta.getString("terreno"));
-            luce.setText(""+livelloLuce+"/5");
-            progressBarLuce.setProgress(20*livelloLuce);
+            luce.setText("" + livelloLuce + "/5");
+            progressBarLuce.setProgress(20 * livelloLuce);
 
-            puoiAggiungere= true;
+            puoiAggiungere = true;
             System.out.println(" siamo in 3");
 
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
 }
