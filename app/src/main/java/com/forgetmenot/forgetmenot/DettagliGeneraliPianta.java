@@ -23,6 +23,9 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 
 public class DettagliGeneraliPianta extends AppCompatActivity implements TaskCallbackDettagliGeneraliPianta {
     public final static String URL_DETTAGLI_GENERALI_PIANTA = "http://forgetmenot.ddns.net/ForgetMeNot/GetDatiGeneraliPianta?nome=";
@@ -54,9 +57,15 @@ public class DettagliGeneraliPianta extends AppCompatActivity implements TaskCal
         setContentView(R.layout.activity_dettagli_generali_pianta);
 
         nomePianta = getIntent().getStringExtra("nome");
-
         nomePiantaUrl = nomePianta.replaceAll(" ", "%20");
-        nomePiantaUrl=nomePianta.replaceAll("ù","%C3%B9");
+        try{
+            nomePiantaUrl= URLEncoder.encode(nomePianta, "UTF-8");
+        }
+        catch (UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
+
+        //nomePiantaUrl=nomePianta.replaceAll("ù","%C3%B9");
         url = URL_DETTAGLI_GENERALI_PIANTA + nomePiantaUrl;
         System.out.println("°°°°°°°°°°°°°°"+url);
 
