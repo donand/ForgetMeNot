@@ -9,8 +9,8 @@
         android:title="Verifica Luminosità"
         android:icon="@drawable/sun"
         app:showAsAction="always" />
-    <item android:id="@+id/foto"
+    <!--<item android:id="@+id/foto"
         android:title="Verifica Luminosità"
         android:icon="@drawable/camera"
-        app:showAsAction="always" />
+        app:showAsAction="always" />-->
 </menu>

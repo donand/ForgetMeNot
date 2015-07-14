@@ -1,11 +1,17 @@
 package com.forgetmenot.forgetmenot;
 
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -144,7 +150,8 @@ public class Mappa extends FragmentActivity
                 "&key=AIzaSyBCOm2WqbRw-7V2uw6mN7bMJdWoPvmjXqo";//ADD KEY
 
         //execute query
-        new GetPlaces().execute(placesSearchStr);
+        if(checkNetwork())
+            new GetPlaces().execute(placesSearchStr);
 
         //locMan.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 30000, 100, this);
     }
@@ -268,6 +275,27 @@ public class Mappa extends FragmentActivity
         super.onPause();
         if(theMap!=null){
             //locMan.removeUpdates(this);
+        }
+    }
+
+    public boolean checkNetwork() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        boolean isOnline = (netInfo != null && netInfo.isConnectedOrConnecting());
+        if(isOnline) {
+            return true;
+        }else{
+            new AlertDialog.Builder(this)
+                    .setTitle("Attenzione!")
+                    .setMessage("Sembra che tu non sia collegato ad internet! ")
+                    .setPositiveButton("Impostazioni", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // continue with delete
+                            Intent callGPSSettingIntent = new Intent(Settings.ACTION_SETTINGS);
+                            startActivityForResult(callGPSSettingIntent,0);
+                        }
+                    }).show();
+            return false;
         }
     }
 }

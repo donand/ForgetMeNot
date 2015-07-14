@@ -1,13 +1,18 @@
 package com.forgetmenot.forgetmenot;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.MatrixCursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -85,13 +90,13 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
         //chiamo il task che prende l'elenco di piante dell'utente dal server. ora provo con un utente a caso
         try {
             GetElencoPianteUtente task = new GetElencoPianteUtente(ricerca, this, this.getApplicationContext());
-            task.execute();
+            if(checkNetwork()) task.execute();
         } catch (Exception e) {
         }
     }
     private void chiamaApi(String ricerca){
         GetElencoPianteUtente task = new GetElencoPianteUtente(ricerca, this, this.getApplicationContext());
-        task.execute();
+        if(checkNetwork()) task.execute();
     }
 
     @Override
@@ -103,7 +108,7 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
         try {
             String ricerca = "http://forgetmenot.ddns.net/ForgetMeNot/GetElencoTipiPiante";
             GetElencoTipiPiante task = new GetElencoTipiPiante(ricerca, this, this.getApplicationContext());
-            task.execute();
+            if(checkNetwork()) task.execute();
         } catch (Exception e) {
         }
 
@@ -197,24 +202,18 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         if(id == R.id.luce){
             Intent i = new Intent(MainActivity.this, VerificaLuce.class);
             this.startActivity(i);
         }
-
         if(id==R.id.search){
             //onSearchRequested();
             return true;
         }
-        if(id==R.id.foto){
+        /*if(id==R.id.foto){
             Intent i = new Intent(MainActivity.this, VisualSearch.class);
             this.startActivity(i);
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -313,5 +312,25 @@ public class MainActivity extends ActionBarActivity implements TaskCallbackElenc
                 break;
         }
     }
-    //provamergeeee
+
+    public boolean checkNetwork() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        boolean isOnline = (netInfo != null && netInfo.isConnectedOrConnecting());
+        if(isOnline) {
+            return true;
+        }else{
+            new AlertDialog.Builder(this)
+                    .setTitle("Attenzione!")
+                    .setMessage("Sembra che tu non sia collegato ad internet! ")
+                    .setPositiveButton("Impostazioni", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // continue with delete
+                            Intent callGPSSettingIntent = new Intent(Settings.ACTION_SETTINGS);
+                            startActivityForResult(callGPSSettingIntent,0);
+                        }
+                    }).show();
+            return false;
+        }
+    }
 }
