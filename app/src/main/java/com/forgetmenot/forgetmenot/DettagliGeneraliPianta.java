@@ -57,7 +57,7 @@ public class DettagliGeneraliPianta extends AppCompatActivity implements TaskCal
         setContentView(R.layout.activity_dettagli_generali_pianta);
 
         nomePianta = getIntent().getStringExtra("nome");
-        nomePiantaUrl = nomePianta.replaceAll(" ", "%20");
+        //nomePiantaUrl = nomePianta.replaceAll(" ", "%20");
         try{
             nomePiantaUrl= URLEncoder.encode(nomePianta, "UTF-8");
         }
