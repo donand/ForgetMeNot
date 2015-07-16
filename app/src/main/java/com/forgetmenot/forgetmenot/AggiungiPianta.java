@@ -317,6 +317,10 @@ public class AggiungiPianta extends ActionBarActivity {
             Toast.makeText(AggiungiPianta.this, ADD_FAIL+" coordinate non impostate, usa il tasto GPS per impostarle!", Toast.LENGTH_LONG).show();
             return;
         }
+        if(indirizzo.length() > 32){
+            Toast.makeText(AggiungiPianta.this, ADD_FAIL+" l'indirizzo deve essere lungo al massimo 32 lettere!", Toast.LENGTH_LONG).show();
+            return;
+        }
 
 
         JSONObject obj = null;
@@ -327,16 +331,19 @@ public class AggiungiPianta extends ActionBarActivity {
             obj.put("nomeAssegnato", nomePianta);
             obj.put("lat", latitude);
             obj.put("lon", longitude);
+            //indirizzo = indirizzo.replaceAll("\"", "\\\"");
             obj.put("indirizzo", indirizzo);
 
         } catch(JSONException e){
             e.printStackTrace();
         }
+        Log.v(TAG, "json nuova pianta: " + obj.toString());
         RequestQueue queue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL_ADD_PLANT, obj,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.v(TAG, "Pianta aggiunta con successo");
                         finish();
                     }
                 }, new Response.ErrorListener() {
