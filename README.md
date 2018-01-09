@@ -6,3 +6,5 @@ It provides general information about different types of plants as well as detai
 WebSite: http://forgetmenot.ddns.net/ForgetMeNot/
 
 Download APK: http://forgetmenot.ddns.net/ForgetMeNot/Files/app-debug.apk
+
+The app was developed for the course of Design of Software Applications at La Sapienza University in Rome.
